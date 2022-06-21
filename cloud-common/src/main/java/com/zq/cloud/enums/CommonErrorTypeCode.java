@@ -1,27 +1,32 @@
 package com.zq.cloud.enums;
 
+
+import com.zq.cloud.constant.StaticFinalConstant;
+
+
 import java.io.Serializable;
 
+
 public enum CommonErrorTypeCode implements Serializable {
-    BUSINESS_ERROR("001", "业务异常"),
+    BUSINESS_ERROR("001", "业务异常", new String[]{}),
 
-    DB_ERROR("002", "数据库错误"),
+    DB_ERROR("002", "数据库错误", new String[]{StaticFinalConstant.BAD_SQL_GRAMMAR_EXCEPTION,
+            StaticFinalConstant.DATA_INTEGRITY_VIOLATION_EXCEPTION,
+            StaticFinalConstant.DUPLICATE_KEY_EXCEPTION,
+            StaticFinalConstant.MYBATIS_SYSTEM_EXCEPTION}),
 
-    IO_ERROR("003", "IO异常"),
+    IO_ERROR("003", "IO异常", new String[]{StaticFinalConstant.IO_EXCEPTION}),
 
-    NET_ERROR("004", "网络异常"),
+    NET_ERROR("004", "网络异常", new String[]{StaticFinalConstant.CONNECT_EXCEPTION, StaticFinalConstant.SOCKET_EXCEPTION}),
 
-    TRANSACTION_ERROR("005", "事务异常"),
+    INVALID_PARAM("005", "请求参数非法", new String[]{StaticFinalConstant.ILLEGAL_ARGUMENT_EXCEPTION,
+            StaticFinalConstant.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTION,
+            StaticFinalConstant.METHOD_ARGUMENT_NOT_VALID_EXCEPTION, StaticFinalConstant.VALIDATION_EXCEPTION,
+            StaticFinalConstant.CONSTRAINT_VIOLATION_EXCEPTION, StaticFinalConstant.MAX_UPLOAD_SIZE_EXCEEDED_EXCEPTION}),
 
-    INVALID_PARAM("006", "请求参数非法"),
+    TIMEOUT("006", "请求超时", new String[]{StaticFinalConstant.SOCKET_TIMEOUT_EXCEPTION}),
 
-    PARAM_FORMAT_ERROR("007", "参数格式错误"),
-
-    REQUEST_REPEATED("008", "重复的请求"),
-
-    TIMEOUT("009", "请求超时"),
-
-    UNKNOWN_ERROR("010", "未知异常"),
+    UNKNOWN_ERROR("007", "未知异常", new String[]{}),
     ;
 
 
@@ -29,10 +34,13 @@ public enum CommonErrorTypeCode implements Serializable {
 
     private String message;
 
+    private String[] errorClassArray;
 
-    CommonErrorTypeCode(String code, String message) {
+
+    CommonErrorTypeCode(String code, String message, String[] errorClassArray) {
         this.code = code;
         this.message = message;
+        this.errorClassArray = errorClassArray;
     }
 
 
@@ -44,4 +52,7 @@ public enum CommonErrorTypeCode implements Serializable {
         return this.message;
     }
 
+    public String[] getErrorClassArray() {
+        return this.errorClassArray;
+    }
 }

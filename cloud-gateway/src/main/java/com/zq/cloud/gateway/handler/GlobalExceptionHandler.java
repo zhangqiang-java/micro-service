@@ -2,6 +2,7 @@ package com.zq.cloud.gateway.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zq.cloud.constant.StaticFinalConstant;
 import com.zq.cloud.dto.exception.BusinessException;
 import com.zq.cloud.dto.exception.NotLoginException;
 import com.zq.cloud.dto.result.ResultBase;
@@ -17,6 +18,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
@@ -33,6 +35,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
+        ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
         if (response.isCommitted()) {
             return Mono.error(ex);
@@ -41,8 +44,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
         response.setStatusCode(HttpStatus.OK);
 
         Route route = (Route) exchange.getAttributes().get(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
-
-        ResultBase<Void> errorResult = this.createErrorResult(response, ex, route.getId());
+        ResultBase<Void> errorResult = this.createErrorResult(request, response, ex, route.getId());
         return response
                 .writeWith(Mono.fromSupplier(() -> {
                     DataBufferFactory bufferFactory = response.bufferFactory();
@@ -56,7 +58,16 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
     }
 
 
-    private ResultBase<Void> createErrorResult(ServerHttpResponse response, Throwable ex, String routeId) {
+    /**
+     * 异常返回
+     *
+     * @param request
+     * @param response
+     * @param ex
+     * @param routeId
+     * @return
+     */
+    private ResultBase<Void> createErrorResult(ServerHttpRequest request, ServerHttpResponse response, Throwable ex, String routeId) {
         ResultBase<Void> resultBase = new ResultBase<>();
         resultBase.setSuccess(false);
         resultBase.setMessage(ex.getMessage());
@@ -75,18 +86,24 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
             return resultBase;
         }
 
-        // 数据库错误
-        if (StringUtils.equalsAny(ex.getClass().getName(),
-                "org.springframework.jdbc.BadSqlGrammarException", "org.mybatis.spring.MyBatisSystemException")) {
-            resultBase.setCode(ErrorCodeUtil.crateErrorCode(routeId, CommonErrorTypeCode.DB_ERROR));
-            resultBase.setMessage(ex.getMessage());
-        } else {
-            //位置异常
-            resultBase.setCode(ErrorCodeUtil.crateErrorCode(routeId, CommonErrorTypeCode.UNKNOWN_ERROR));
-            resultBase.setMessage(ex.getMessage());
+        log.error("【非业务异常】:{} {}{} {}", request.getMethodValue().toUpperCase(),
+                request.getURI().getHost(), request.getPath().value(),
+                request.getURI().getQuery() == null ? "" : request.getURI().getQuery(), ex);
+
+
+        //设置异常code
+        CommonErrorTypeCode[] values = CommonErrorTypeCode.values();
+        for (CommonErrorTypeCode errorTypeCode : values) {
+            if (StringUtils.equalsAny(ex.getClass().getName(), errorTypeCode.getErrorClassArray())) {
+                resultBase.setCode(ErrorCodeUtil.crateErrorCode(routeId, CommonErrorTypeCode.DB_ERROR));
+                break;
+            }
         }
-
-
+        //未知异常
+        if (StringUtils.isBlank(resultBase.getCode())) {
+            resultBase.setCode(ErrorCodeUtil.crateErrorCode(routeId, CommonErrorTypeCode.UNKNOWN_ERROR));
+        }
+        resultBase.setMessage(StaticFinalConstant.OPEN_ERROR_MESSAGE);
         return resultBase;
     }
 }
