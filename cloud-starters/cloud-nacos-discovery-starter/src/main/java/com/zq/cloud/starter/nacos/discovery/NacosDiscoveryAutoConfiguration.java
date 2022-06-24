@@ -13,6 +13,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.netflix.ribbon.RibbonClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,7 +59,10 @@ public class NacosDiscoveryAutoConfiguration {
          */
         @Override
         public void apply(RequestTemplate template) {
-            template.header(DebugPatternUtil.getDebugPatternKey(), DebugPatternUtil.getDebugPatternVersion());
+            if (StringUtils.hasText(DebugPatternUtil.getDebugPatternVersion())) {
+                template.header(DebugPatternUtil.getDebugPatternKey(), DebugPatternUtil.getDebugPatternVersion());
+            }
+
         }
     }
 }
