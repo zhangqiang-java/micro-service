@@ -1,0 +1,16 @@
+server:
+  port: 8000
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    nacos:
+      discovery:
+        namespace: ${spring.profiles.active}
+        zds:
+          providerDeregisterBeforeHttpClose:
+            enabled: false
+      config:
+        namespace: ${spring.profiles.active}
+        file-extension: yaml
+

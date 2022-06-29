@@ -1,0 +1,28 @@
+[{
+  "id": "xx",
+  "predicates": [{
+    "name": "Path",
+    "args": {
+      "_genkey_0": "/{segment}/xx/**"
+    }
+  }],
+  "filters": [{
+    "name": "xx",
+    "args": {
+
+    }
+  },
+    {
+      "name": "xx",
+      "args": {
+
+      }
+    }
+  ],
+  "uri": "lb://xx",
+  "metadata": {
+
+  },
+  "order": 0
+}
+]
