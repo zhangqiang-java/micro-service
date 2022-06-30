@@ -24,6 +24,8 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
 import reactor.core.publisher.Mono;
 
+import java.util.Objects;
+
 /**
  * 网关异常通用处理器，只作用在webflux环境下,优先级低于 {@link ResponseStatusExceptionHandler} 执行
  */
@@ -44,7 +46,9 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
         response.setStatusCode(HttpStatus.OK);
 
         Route route = (Route) exchange.getAttributes().get(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
-        ResultBase<Void> errorResult = this.createErrorResult(request, response, ex, route.getId());
+        Object serviceCodeObj = route.getMetadata().get(StaticFinalConstant.SERVICE_CODE_KEY);
+        String serviceCodeStr = Objects.nonNull(serviceCodeObj) ? serviceCodeObj.toString() : "";
+        ResultBase<Void> errorResult = this.createErrorResult(request, response, ex, serviceCodeStr);
         return response
                 .writeWith(Mono.fromSupplier(() -> {
                     DataBufferFactory bufferFactory = response.bufferFactory();
@@ -64,16 +68,16 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
      * @param request
      * @param response
      * @param ex
-     * @param routeId
+     * @param serviceCode
      * @return
      */
-    private ResultBase<Void> createErrorResult(ServerHttpRequest request, ServerHttpResponse response, Throwable ex, String routeId) {
+    private ResultBase<Void> createErrorResult(ServerHttpRequest request, ServerHttpResponse response, Throwable ex, String serviceCode) {
         ResultBase<Void> resultBase = new ResultBase<>();
         resultBase.setSuccess(false);
         resultBase.setMessage(ex.getMessage());
         //未登录异常
         if (ex instanceof NotLoginException) {
-            resultBase.setCode(((NotLoginException) ex).getCode());
+            resultBase.setErrorCode(((NotLoginException) ex).getCode());
             resultBase.setMessage(ex.getMessage());
             response.setStatusCode(HttpStatus.UNAUTHORIZED);
             return resultBase;
@@ -81,7 +85,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
         //业务异常
         if (ex instanceof BusinessException) {
-            resultBase.setCode(((BusinessException) ex).getCode());
+            resultBase.setErrorCode(((BusinessException) ex).getCode());
             resultBase.setMessage(ex.getMessage());
             return resultBase;
         }
@@ -95,13 +99,13 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
         CommonErrorTypeCode[] values = CommonErrorTypeCode.values();
         for (CommonErrorTypeCode errorTypeCode : values) {
             if (StringUtils.equalsAny(ex.getClass().getName(), errorTypeCode.getErrorClassArray())) {
-                resultBase.setCode(ErrorCodeUtil.crateErrorCode(routeId, CommonErrorTypeCode.DB_ERROR));
+                resultBase.setErrorCode(ErrorCodeUtil.crateErrorCode(serviceCode, errorTypeCode));
                 break;
             }
         }
         //未知异常
-        if (StringUtils.isBlank(resultBase.getCode())) {
-            resultBase.setCode(ErrorCodeUtil.crateErrorCode(routeId, CommonErrorTypeCode.UNKNOWN_ERROR));
+        if (StringUtils.isBlank(resultBase.getErrorCode())) {
+            resultBase.setErrorCode(ErrorCodeUtil.crateErrorCode(serviceCode, CommonErrorTypeCode.UNKNOWN_ERROR));
         }
         resultBase.setMessage(StaticFinalConstant.OPEN_ERROR_MESSAGE);
         return resultBase;

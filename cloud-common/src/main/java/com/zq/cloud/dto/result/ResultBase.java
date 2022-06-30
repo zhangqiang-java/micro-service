@@ -1,13 +1,16 @@
 package com.zq.cloud.dto.result;
 
+import com.zq.cloud.constant.StaticFinalConstant;
 import com.zq.cloud.dto.DtoBase;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class ResultBase<T> extends DtoBase {
     private boolean success;
 
-    private String code;
+    private String errorCode;
 
     private String message;
 
@@ -16,14 +19,14 @@ public class ResultBase<T> extends DtoBase {
 
     public ResultBase() {
         this.success = Boolean.TRUE;
-        this.code = "SUCCESS";
+        this.errorCode = StaticFinalConstant.SUCCESS_CODE;
         this.message = "成功";
     }
 
     public static ResultBase<Void> success() {
         ResultBase<Void> result = new ResultBase<>();
         result.setSuccess(true);
-        result.setCode("SUCCESS");
+        result.setErrorCode(StaticFinalConstant.SUCCESS_CODE);
         result.setMessage("成功");
         return result;
     }
@@ -31,7 +34,7 @@ public class ResultBase<T> extends DtoBase {
     public static ResultBase<Void> success(String message) {
         ResultBase<Void> result = new ResultBase<>();
         result.setSuccess(true);
-        result.setCode("SUCCESS");
+        result.setErrorCode(StaticFinalConstant.SUCCESS_CODE);
         result.setMessage(message);
         return result;
     }
@@ -40,7 +43,7 @@ public class ResultBase<T> extends DtoBase {
     public String toString() {
         return "ResultBase{" +
                 "message='" + message + '\'' +
-                ", code='" + code + '\'' +
+                ", code='" + errorCode + '\'' +
                 ", success=" + success +
                 ", data=" + data +
                 '}';

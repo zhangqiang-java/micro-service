@@ -11,6 +11,22 @@ public class StaticFinalConstant {
     public static final String NOT_LOGIN_CODE = "NOT_LOGIN";
 
     /**
+     * 微服务code标识
+     */
+    public static final String SERVICE_CODE_KEY = "serviceCode";
+
+    /**
+     * 错误码code
+     */
+    public static final String ERROR_CODE_KEY = "errorCode";
+
+    /**
+     * 成功code
+     */
+    public static final String SUCCESS_CODE = "SUCCESS";
+
+
+    /**
      * 对外暴露异常提示语
      */
     public static final String OPEN_ERROR_MESSAGE = "系统繁忙，请稍后再试";
@@ -62,7 +78,6 @@ public class StaticFinalConstant {
     public static final String SOCKET_TIMEOUT_EXCEPTION = "java.net.SocketTimeoutException";
 
 
-
     /**
      * 非法参数
      */
@@ -76,7 +91,7 @@ public class StaticFinalConstant {
 
 
     /**
-     *方法参数无效异常
+     * 方法参数无效异常
      */
     public static final String METHOD_ARGUMENT_NOT_VALID_EXCEPTION = "org.springframework.web.bind.MethodArgumentNotValidException";
 
@@ -96,14 +111,19 @@ public class StaticFinalConstant {
     public static final String MAX_UPLOAD_SIZE_EXCEEDED_EXCEPTION = "org.springframework.web.multipart.MaxUploadSizeExceededException";
 
 
+    /**
+     * 前缀S 代表后面是微服务编号
+     */
+    public static final String SERVICE_PREFIX = "S";
 
 
+    /**
+     * 前缀T 代表后面异常类型
+     */
+    public static final String ERROR_TYPE_PREFIX = "T";
 
-
-
-
-
-
-
-
+    /**
+     * 前缀C 代表后面微服务自定义的特殊信息
+     */
+    public static final String CUSTOM_MESSAGE_PREFIX = "C";
 }

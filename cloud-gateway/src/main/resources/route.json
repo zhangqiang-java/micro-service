@@ -1,28 +1,30 @@
-[{
-  "id": "xx",
-  "predicates": [{
-    "name": "Path",
-    "args": {
-      "_genkey_0": "/{segment}/xx/**"
-    }
-  }],
-  "filters": [{
-    "name": "xx",
-    "args": {
-
-    }
-  },
-    {
-      "name": "xx",
-      "args": {
-
+[
+  {
+    "id": "xx",
+    "predicates": [
+      {
+        "name": "Path",
+        "args": {
+          "_genkey_0": "/{segment}/xx/**"
+        }
       }
-    }
-  ],
-  "uri": "lb://xx",
-  "metadata": {
-
-  },
-  "order": 0
-}
+    ],
+    "filters": [
+      {
+        "name": "xx",
+        "args": {
+        }
+      },
+      {
+        "name": "xx",
+        "args": {
+        }
+      }
+    ],
+    "uri": "lb://xx",
+    "metadata": {
+      "serviceCode": "001"
+    },
+    "order": 0
+  }
 ]
