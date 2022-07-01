@@ -1,0 +1,16 @@
+server:
+  port: 8251
+spring:
+  application:
+    name: cloud-authuser
+  cloud:
+    nacos:
+      discovery:
+        namespace: ${spring.profiles.active}
+      config:
+        namespace: ${spring.profiles.active}
+        file-extension: yaml
+        name: ${spring.application.name}
+        enabled: false
+    main:
+      allow-bean-definition-overriding: true

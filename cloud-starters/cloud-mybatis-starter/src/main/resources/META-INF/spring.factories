@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zq.cloud.starter.mybatis.MyBatisAutoConfiguration
+
+org.springframework.context.ApplicationContextInitializer=\
+  com.zq.cloud.starter.mybatis.MyBatisContextInitializer
