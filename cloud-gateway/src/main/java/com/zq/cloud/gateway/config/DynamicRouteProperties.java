@@ -19,7 +19,7 @@ public class DynamicRouteProperties {
     /**
      * 路由配置的id
      */
-    private String dataId = "cloud-route";
+    private String dataId = "gateway-route";
 
     /**
      * 配置的group

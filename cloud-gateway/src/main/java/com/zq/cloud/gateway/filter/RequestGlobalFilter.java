@@ -1,6 +1,7 @@
 package com.zq.cloud.gateway.filter;
 
 import com.alibaba.nacos.common.utils.CollectionUtils;
+import com.zq.cloud.gateway.listener.DebugPatternInstancesChangeListener;
 import com.zq.cloud.gateway.utils.CheckDebugPatternVersionUtil;
 import com.zq.cloud.gateway.utils.LogHelper;
 import com.zq.cloud.gateway.utils.WebFluxUtil;
@@ -12,6 +13,8 @@ import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.filter.factory.rewrite.ModifyRequestBodyGatewayFilterFactory;
+import org.springframework.cloud.gateway.route.Route;
+import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -26,6 +29,9 @@ import java.util.List;
 @Slf4j
 @Component
 public class RequestGlobalFilter implements GlobalFilter, Ordered {
+
+    @Autowired
+    private DebugPatternInstancesChangeListener debugPatternInstancesChangeListener;
 
 
     @Autowired
@@ -95,14 +101,17 @@ public class RequestGlobalFilter implements GlobalFilter, Ordered {
 
         // 存在就放在上下问中
         if (StringUtils.hasText(debugPatternVersion)) {
-            //检查是否存在对应调试版本的服务
-            boolean existDebugPatternVersion = CheckDebugPatternVersionUtil.checkDebugPatternVersionMap(debugPatternVersion);
+            Route route = (Route) exchange.getAttributes().get(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
+            boolean existDebugPatternVersion =
+                    debugPatternInstancesChangeListener.checkDebugPatternVersionMap(debugPatternVersion,route.getId());
             if (existDebugPatternVersion) {
                 DebugPatternFromCustomizeContext.setDebugPatternVersion(debugPatternVersion);
             } else {
                 log.info("调试版本【{}】的对应调试服务不存在,将走正常路由逻辑", debugPatternVersion);
+                DebugPatternFromCustomizeContext.clear();
             }
-
+        } else {
+            DebugPatternFromCustomizeContext.clear();
         }
     }
 

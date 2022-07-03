@@ -5,7 +5,6 @@ import com.netflix.loadbalancer.IRule;
 import com.zq.cloud.starter.nacos.rule.DebugPatternNacosRule;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,8 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * 配置负载均衡策略
  */
 @Data
-@Configuration()
-@RefreshScope
+@Configuration
 public class CustomNacosRibbonClientConfiguration {
 
     @Autowired
@@ -22,7 +20,6 @@ public class CustomNacosRibbonClientConfiguration {
 
 
     @Bean
-    @RefreshScope
     public IRule getRibbonRule() {
         if (discoveryProperties.getDebugPattern().getEnabled()) {
             return new DebugPatternNacosRule();

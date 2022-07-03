@@ -97,7 +97,8 @@ public class ResponseGlobalFilter implements GlobalFilter, Ordered {
                 }
             }
         } catch (Exception e) {
-            log.error("异常返回时 添加ServiceCode", e);
+            //按照规则返回的才解析 没按规则的也不抛出异常 不做任何处理
+
         }
         return responseBody;
     }
@@ -105,7 +106,6 @@ public class ResponseGlobalFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        DebugPatternFromCustomizeContext.clear();
         return filter.filter(exchange, chain);
     }
 }

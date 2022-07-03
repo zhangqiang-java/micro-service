@@ -1,4 +1,4 @@
-package com.zq.cloud.starter.nacos.discovery;
+package com.zq.cloud.starter.nacos;
 
 import com.zq.cloud.starter.nacos.config.DebugPatternFromHttpServletRequest;
 import com.zq.cloud.starter.nacos.config.ZqNacosDiscoveryProperties;

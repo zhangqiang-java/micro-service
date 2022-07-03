@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebAutoConfiguration implements WebMvcConfigurer {
 
     @Bean
-    @ConditionalOnProperty(value = "zq.cloud.web.controllerLog.enabled", matchIfMissing = true)
+    @ConditionalOnProperty(value = "zq.cloud.web.log.enabled", matchIfMissing = true)
     public ControllerLogAop controllerLogAop() {
         return new ControllerLogAop();
     }

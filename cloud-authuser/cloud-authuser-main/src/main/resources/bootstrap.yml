@@ -11,6 +11,5 @@ spring:
         namespace: ${spring.profiles.active}
         file-extension: yaml
         name: ${spring.application.name}
-        enabled: false
     main:
       allow-bean-definition-overriding: true

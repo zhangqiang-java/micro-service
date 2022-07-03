@@ -4,6 +4,7 @@ import com.alibaba.cloud.nacos.ribbon.NacosServer;
 import com.netflix.loadbalancer.ILoadBalancer;
 import com.netflix.loadbalancer.Server;
 import com.zq.cloud.starter.nacos.util.DebugPatternUtil;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class DebugPatternILoadBalancer implements ILoadBalancer {
     }
 
     /**
-     * 排除调试的服务
+     * 排除调试服务 只存在调试的服务，没有正常服务 就直接返回所有正常的服务 不做排除
      *
      * @return
      */
@@ -66,7 +67,7 @@ public class DebugPatternILoadBalancer implements ILoadBalancer {
 
 
     /**
-     * 排除调试服务
+     * 排除调试服务 只存在调试的服务，没有正常服务 就直接返回所有正常的服务 不做排除
      *
      * @param servers
      * @return
@@ -81,6 +82,6 @@ public class DebugPatternILoadBalancer implements ILoadBalancer {
                 }
             }
         }
-        return Collections.unmodifiableList(excludeDebugServers);
+        return Collections.unmodifiableList(CollectionUtils.isEmpty(excludeDebugServers)?servers:excludeDebugServers);
     }
 }

@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.zq.cloud.starter.nacos.discovery.NacosDiscoveryAutoConfiguration
+  com.zq.cloud.starter.nacos.NacosDiscoveryAutoConfiguration

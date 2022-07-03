@@ -28,7 +28,8 @@ public class DebugPatternNacosRule extends RoundRobinRule {
             //选取指定的服务
             NacosServer debugServer = findDebugServer(loadBalancer.getReachableServers(), debugPatternVersion);
             if (Objects.nonNull(debugServer)) {
-                log.info("找到：{}对应的调试服务：{},服务节点：{}", debugPatternVersion, debugServer.getInstance().getServiceName(), debugServer.getHostPort());
+                log.info("找到：【{}】对应的调试服务：{},服务节点：{}", debugPatternVersion, debugServer.getInstance().getServiceName(),
+                        debugServer.getHostPort());
                 return debugServer;
             }
         }
@@ -36,7 +37,8 @@ public class DebugPatternNacosRule extends RoundRobinRule {
         //没有指定服务 或者 正常请求走正常逻辑
         final Server choose = super.choose(new DebugPatternILoadBalancer(loadBalancer), key);
         if (StringUtils.hasText(debugPatternVersion)) {
-            log.info("未找到：{}对应的调试服务：{},正常负载到服务节点：{}", debugPatternVersion, choose.getMetaInfo().getAppName(), choose.getHostPort());
+            log.info("未找到：【{}】对应的调试服务：{},正常负载到服务节点：{}", debugPatternVersion, choose.getMetaInfo().getAppName(),
+                    choose.getHostPort());
         }
         return choose;
     }

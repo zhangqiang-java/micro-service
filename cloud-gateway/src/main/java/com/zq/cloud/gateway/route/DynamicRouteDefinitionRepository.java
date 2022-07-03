@@ -5,6 +5,7 @@ import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.common.utils.JacksonUtils;
+import com.alibaba.nacos.common.utils.StringUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.zq.cloud.gateway.config.DynamicRouteProperties;
 import lombok.NoArgsConstructor;
@@ -76,9 +77,11 @@ public class DynamicRouteDefinitionRepository implements RouteDefinitionReposito
     public Flux<RouteDefinition> getRouteDefinitions() {
         try {
             final String config = configService.getConfig(dynamicRouteProperties.getDataId(), dynamicRouteProperties.getGroup(), 5000);
-            List<RouteDefinition> routeDefinitions = JacksonUtils.toObj(config, new TypeReference<List<RouteDefinition>>() {
-            });
-            return Flux.fromIterable(routeDefinitions);
+            if (StringUtils.isNotBlank(config)){
+                List<RouteDefinition> routeDefinitions = JacksonUtils.toObj(config, new TypeReference<List<RouteDefinition>>() {
+                });
+                return Flux.fromIterable(routeDefinitions);
+            }
         } catch (NacosException e) {
             log.error("从nacos中获取路由配置信息异常", e);
         }

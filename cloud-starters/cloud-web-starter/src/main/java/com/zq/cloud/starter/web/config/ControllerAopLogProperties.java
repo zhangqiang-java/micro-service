@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
-@ConfigurationProperties("zq.cloud.web.controllerLog")
+@ConfigurationProperties("zq.cloud.web.log")
 public class ControllerAopLogProperties {
 
     /**
