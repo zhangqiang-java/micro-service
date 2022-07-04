@@ -17,6 +17,6 @@ public class NotLoginException extends RuntimeException {
     public NotLoginException() {
         super();
         this.code = StaticFinalConstant.NOT_LOGIN_CODE;
-        this.message = "用户登录过期,请重新登录";
+        this.message = "用户未登录或已过期,请重新登录";
     }
 }

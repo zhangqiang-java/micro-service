@@ -77,6 +77,11 @@ public class StaticFinalConstant {
      */
     public static final String SOCKET_TIMEOUT_EXCEPTION = "java.net.SocketTimeoutException";
 
+    /**
+     * 服务未发现异常
+     */
+    public static final String SERVER_NOT_FOUND_EXCEPTION = "org.springframework.cloud.gateway.support.NotFoundException";
+
 
     /**
      * 非法参数
@@ -126,4 +131,10 @@ public class StaticFinalConstant {
      * 前缀C 代表后面微服务自定义的特殊信息
      */
     public static final String CUSTOM_MESSAGE_PREFIX = "C";
+
+
+    /**
+     * 存储用户信息的header
+     */
+    public static final String USER_INFO_HEADER_NAME = "userInfo";
 }

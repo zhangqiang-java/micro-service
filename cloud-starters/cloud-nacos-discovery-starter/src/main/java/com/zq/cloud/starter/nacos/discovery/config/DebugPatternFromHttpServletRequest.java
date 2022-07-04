@@ -1,6 +1,6 @@
-package com.zq.cloud.starter.nacos.config;
+package com.zq.cloud.starter.nacos.discovery.config;
 
-import com.zq.cloud.starter.nacos.util.DebugPatternUtil;
+import com.zq.cloud.starter.nacos.discovery.util.DebugPatternUtil;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;

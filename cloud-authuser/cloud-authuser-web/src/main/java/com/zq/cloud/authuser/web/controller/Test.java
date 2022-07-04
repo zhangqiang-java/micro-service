@@ -1,5 +1,6 @@
 package com.zq.cloud.authuser.web.controller;
 
+import com.zq.cloud.dto.exception.BusinessException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,7 @@ public class Test {
 
     @GetMapping("/test")
     public String test() {
-       int  a=0/0;
-        return "223";
+        BusinessException businessException = new BusinessException("测试异常");
+        throw businessException;
     }
 }

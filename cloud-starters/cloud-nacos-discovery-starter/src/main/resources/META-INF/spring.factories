@@ -1,2 +1,4 @@
+org.springframework.context.ApplicationContextInitializer=\
+  com.zq.cloud.starter.nacos.discovery.NacosDiscoveryContextInitializer
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.zq.cloud.starter.nacos.NacosDiscoveryAutoConfiguration
+  com.zq.cloud.starter.nacos.discovery.NacosDiscoveryAutoConfiguration

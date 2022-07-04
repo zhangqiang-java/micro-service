@@ -2,11 +2,10 @@ package com.zq.cloud.gateway.filter;
 
 import com.alibaba.nacos.common.utils.CollectionUtils;
 import com.zq.cloud.gateway.listener.DebugPatternInstancesChangeListener;
-import com.zq.cloud.gateway.utils.CheckDebugPatternVersionUtil;
 import com.zq.cloud.gateway.utils.LogHelper;
 import com.zq.cloud.gateway.utils.WebFluxUtil;
-import com.zq.cloud.starter.nacos.config.DebugPatternFromCustomizeContext;
-import com.zq.cloud.starter.nacos.util.DebugPatternUtil;
+import com.zq.cloud.starter.nacos.discovery.config.DebugPatternFromCustomizeContext;
+import com.zq.cloud.starter.nacos.discovery.util.DebugPatternUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;

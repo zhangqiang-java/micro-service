@@ -14,7 +14,7 @@ import com.alibaba.nacos.common.notify.listener.Subscriber;
 import com.zq.cloud.constant.StaticFinalConstant;
 import com.zq.cloud.dto.exception.BusinessException;
 import com.zq.cloud.gateway.config.GateWayStaticFinalConstant;
-import com.zq.cloud.starter.nacos.util.DebugPatternUtil;
+import com.zq.cloud.starter.nacos.discovery.util.DebugPatternUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

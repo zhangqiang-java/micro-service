@@ -1,8 +1,8 @@
-package com.zq.cloud.starter.nacos.config;
+package com.zq.cloud.starter.nacos.discovery.config;
 
 import com.alibaba.cloud.nacos.ribbon.NacosRule;
 import com.netflix.loadbalancer.IRule;
-import com.zq.cloud.starter.nacos.rule.DebugPatternNacosRule;
+import com.zq.cloud.starter.nacos.discovery.rule.DebugPatternNacosRule;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

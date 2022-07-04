@@ -7,13 +7,13 @@ import com.zq.cloud.dto.exception.BusinessException;
 import com.zq.cloud.dto.exception.NotLoginException;
 import com.zq.cloud.dto.result.ResultBase;
 import com.zq.cloud.enums.CommonErrorTypeCode;
+import com.zq.cloud.gateway.config.GateWayStaticFinalConstant;
 import com.zq.cloud.utils.ErrorCodeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
-import org.springframework.cloud.gateway.route.Route;
-import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.http.HttpStatus;
@@ -24,13 +24,12 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
 import reactor.core.publisher.Mono;
 
-import java.util.Objects;
-
 /**
  * 网关异常通用处理器，只作用在webflux环境下,优先级低于 {@link ResponseStatusExceptionHandler} 执行
  */
 @Slf4j
 @Order(-1)
+@Configuration
 @RequiredArgsConstructor
 public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
     private final ObjectMapper objectMapper;
@@ -45,10 +44,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
         response.setStatusCode(HttpStatus.OK);
 
-        Route route = (Route) exchange.getAttributes().get(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
-        Object serviceCodeObj = route.getMetadata().get(StaticFinalConstant.SERVICE_CODE_KEY);
-        String serviceCodeStr = Objects.nonNull(serviceCodeObj) ? serviceCodeObj.toString() : "";
-        ResultBase<Void> errorResult = this.createErrorResult(request, response, ex, serviceCodeStr);
+        ResultBase<Void> errorResult = this.createErrorResult(request, response, ex, GateWayStaticFinalConstant.SERVER_CODE);
         return response
                 .writeWith(Mono.fromSupplier(() -> {
                     DataBufferFactory bufferFactory = response.bufferFactory();
@@ -104,7 +100,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
             }
         }
         //未知异常
-        if (StringUtils.isBlank(resultBase.getErrorCode())) {
+        if (StaticFinalConstant.SUCCESS_CODE.equals(resultBase.getErrorCode())) {
             resultBase.setErrorCode(ErrorCodeUtil.crateErrorCode(serviceCode, CommonErrorTypeCode.UNKNOWN_ERROR));
         }
         resultBase.setMessage(StaticFinalConstant.OPEN_ERROR_MESSAGE);

@@ -1,11 +1,10 @@
-package com.zq.cloud.starter.nacos.rule;
+package com.zq.cloud.starter.nacos.discovery.rule;
 
 import com.alibaba.cloud.nacos.ribbon.NacosServer;
-import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.ILoadBalancer;
 import com.netflix.loadbalancer.RoundRobinRule;
 import com.netflix.loadbalancer.Server;
-import com.zq.cloud.starter.nacos.util.DebugPatternUtil;
+import com.zq.cloud.starter.nacos.discovery.util.DebugPatternUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 

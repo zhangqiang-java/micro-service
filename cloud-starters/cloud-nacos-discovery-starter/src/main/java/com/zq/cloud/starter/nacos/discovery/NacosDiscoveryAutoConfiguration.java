@@ -1,9 +1,9 @@
-package com.zq.cloud.starter.nacos;
+package com.zq.cloud.starter.nacos.discovery;
 
-import com.zq.cloud.starter.nacos.config.DebugPatternFromHttpServletRequest;
-import com.zq.cloud.starter.nacos.config.ZqNacosDiscoveryProperties;
-import com.zq.cloud.starter.nacos.config.CustomNacosRibbonClientConfiguration;
-import com.zq.cloud.starter.nacos.util.DebugPatternUtil;
+import com.zq.cloud.starter.nacos.discovery.config.DebugPatternFromHttpServletRequest;
+import com.zq.cloud.starter.nacos.discovery.config.ZqNacosDiscoveryProperties;
+import com.zq.cloud.starter.nacos.discovery.config.CustomNacosRibbonClientConfiguration;
+import com.zq.cloud.starter.nacos.discovery.util.DebugPatternUtil;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;

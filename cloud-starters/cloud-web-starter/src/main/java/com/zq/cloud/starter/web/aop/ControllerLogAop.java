@@ -51,7 +51,7 @@ public class ControllerLogAop {
         String requestUrl = request.getRequestURL().toString();
         String realIpAddress = RealIpAddressUtil.getIpAddress(request);
         String params = JacksonUtils.toJsonString(this.excludeFrameParameters(pjp));
-        log.info("请求来源:{},地址：{}，入参：{}...", realIpAddress, requestUrl, StringUtils.left(params, properties.getLogLength()));
+        log.info("请求来源:{},地址：{}，入参：{}", realIpAddress, requestUrl, StringUtils.left(params, properties.getLogLength()));
 
         Object result = pjp.proceed();
 

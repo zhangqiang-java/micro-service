@@ -1,8 +1,8 @@
-package com.zq.cloud.starter.nacos.util;
+package com.zq.cloud.starter.nacos.discovery.util;
 
-import com.zq.cloud.starter.nacos.config.DebugPatternFromHttpServletRequest;
-import com.zq.cloud.starter.nacos.config.DebugPatternFromCustomizeContext;
-import com.zq.cloud.starter.nacos.config.ZqNacosDiscoveryProperties;
+import com.zq.cloud.starter.nacos.discovery.config.DebugPatternFromHttpServletRequest;
+import com.zq.cloud.starter.nacos.discovery.config.DebugPatternFromCustomizeContext;
+import com.zq.cloud.starter.nacos.discovery.config.ZqNacosDiscoveryProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 

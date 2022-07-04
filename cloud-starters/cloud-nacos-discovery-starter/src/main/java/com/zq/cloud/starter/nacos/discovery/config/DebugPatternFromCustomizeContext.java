@@ -1,4 +1,4 @@
-package com.zq.cloud.starter.nacos.config;
+package com.zq.cloud.starter.nacos.discovery.config;
 
 import org.springframework.core.NamedThreadLocal;
 import org.springframework.lang.Nullable;

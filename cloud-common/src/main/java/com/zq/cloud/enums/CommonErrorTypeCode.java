@@ -25,8 +25,8 @@ public enum CommonErrorTypeCode implements Serializable {
             StaticFinalConstant.CONSTRAINT_VIOLATION_EXCEPTION, StaticFinalConstant.MAX_UPLOAD_SIZE_EXCEEDED_EXCEPTION}),
 
     TIMEOUT("006", "请求超时", new String[]{StaticFinalConstant.SOCKET_TIMEOUT_EXCEPTION}),
-
-    UNKNOWN_ERROR("007", "未知异常", new String[]{}),
+    SERVER_NOT_FOUND("007", "服务未发现", new String[]{StaticFinalConstant.SERVER_NOT_FOUND_EXCEPTION}),
+    UNKNOWN_ERROR("008", "未知异常", new String[]{}),
     ;
 
 

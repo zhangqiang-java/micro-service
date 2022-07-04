@@ -26,5 +26,4 @@ public class DynamicRouteProperties {
      */
     private String group = "DEFAULT_GROUP";
 
-
 }

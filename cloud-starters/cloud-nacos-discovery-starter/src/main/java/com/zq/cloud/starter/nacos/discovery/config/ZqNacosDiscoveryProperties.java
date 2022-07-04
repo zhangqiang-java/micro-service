@@ -1,4 +1,4 @@
-package com.zq.cloud.starter.nacos.config;
+package com.zq.cloud.starter.nacos.discovery.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

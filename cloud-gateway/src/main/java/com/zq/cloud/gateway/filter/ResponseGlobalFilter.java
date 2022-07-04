@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.zq.cloud.constant.StaticFinalConstant;
 import com.zq.cloud.gateway.utils.LogHelper;
-import com.zq.cloud.starter.nacos.config.DebugPatternFromCustomizeContext;
 import com.zq.cloud.utils.JacksonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -84,14 +83,14 @@ public class ResponseGlobalFilter implements GlobalFilter, Ordered {
             JsonNode errorCodeNode = root.findValue(StaticFinalConstant.ERROR_CODE_KEY);
             if (errorCodeNode != null && errorCodeNode.isTextual()) {
                 String errorCode = errorCodeNode.asText();
-                // 错误码不时空 并且没有添加过serviceCode
+                // 错误码不是空 并且没有添加过serviceCode
                 if (StringUtils.isNotBlank(errorCode)
                         && !StaticFinalConstant.SUCCESS_CODE.equals(errorCode)
                         && !errorCode.startsWith(StaticFinalConstant.SERVICE_PREFIX)) {
                     Route route = (Route) exchange.getAttributes().get(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
                     Object serviceCodeObj = route.getMetadata().get(StaticFinalConstant.SERVICE_CODE_KEY);
                     String serviceCodeStr = Objects.nonNull(serviceCodeObj) ? serviceCodeObj.toString() : "";
-                    errorCode = StaticFinalConstant.ERROR_TYPE_PREFIX + serviceCodeStr + errorCode;
+                    errorCode = StaticFinalConstant.SERVICE_PREFIX + serviceCodeStr + errorCode;
                     root.put(StaticFinalConstant.ERROR_CODE_KEY, errorCode);
                     return JacksonUtils.getObjectMapper().writeValueAsString(root);
                 }
