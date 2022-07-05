@@ -1,5 +1,6 @@
 package com.zq.cloud.gateway.handler;
 
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zq.cloud.constant.StaticFinalConstant;
@@ -41,6 +42,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
         if (response.isCommitted()) {
             return Mono.error(ex);
         }
+
         response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
         response.setStatusCode(HttpStatus.OK);
 
@@ -86,6 +88,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
             return resultBase;
         }
 
+
         log.error("【非业务异常】:{} {}{} {}", request.getMethodValue().toUpperCase(),
                 request.getURI().getHost(), request.getPath().value(),
                 request.getURI().getQuery() == null ? "" : request.getURI().getQuery(), ex);
@@ -98,6 +101,11 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
                 resultBase.setErrorCode(ErrorCodeUtil.crateErrorCode(serviceCode, errorTypeCode));
                 break;
             }
+        }
+
+        //Sentinel 限流异常
+        if (BlockException.isBlockException(ex)) {
+            resultBase.setErrorCode(ErrorCodeUtil.crateErrorCode(serviceCode, CommonErrorTypeCode.BLOCK_EXCEPTION));
         }
         //未知异常
         if (StaticFinalConstant.SUCCESS_CODE.equals(resultBase.getErrorCode())) {
