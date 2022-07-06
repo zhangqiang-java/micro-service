@@ -11,3 +11,25 @@ spring:
         namespace: ${spring.profiles.active}
         file-extension: yaml
 
+
+    sentinel:
+      transport:
+        dashboard: 116.62.148.139:8075
+      datasource:
+        r1:
+          nacos:
+            # nacos地址
+            server-addr: 116.62.148.139:8848
+            # nacos中配置文件的data-id
+            data-id: gateway-flow-limit
+            # nacos 分组
+            group-id: DEFAULT_GROUP
+            # 规则类型 流控
+            rule-type: flow
+        r2:
+          nacos:
+            server-addr: 116.62.148.139:8848
+            data-id: gateway-degrade
+            group-id: DEFAULT_GROUP
+            rule-type: degrade
+

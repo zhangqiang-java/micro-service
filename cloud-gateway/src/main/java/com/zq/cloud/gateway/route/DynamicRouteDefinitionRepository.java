@@ -7,7 +7,7 @@ import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.common.utils.JacksonUtils;
 import com.alibaba.nacos.common.utils.StringUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.zq.cloud.gateway.config.DynamicRouteProperties;
+import com.zq.cloud.gateway.config.DynamicGatewayProperties;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.event.RefreshRoutesEvent;
@@ -28,15 +28,15 @@ import java.util.concurrent.Executor;
 @NoArgsConstructor
 public class DynamicRouteDefinitionRepository implements RouteDefinitionRepository {
 
-    private DynamicRouteProperties dynamicRouteProperties;
+    private DynamicGatewayProperties dynamicGatewayProperties;
 
     private ApplicationEventPublisher publisher;
 
     private ConfigService configService;
 
-    public DynamicRouteDefinitionRepository(NacosConfigManager nacosConfigManager, DynamicRouteProperties dynamicRouteProperties,
+    public DynamicRouteDefinitionRepository(NacosConfigManager nacosConfigManager, DynamicGatewayProperties dynamicGatewayProperties,
                                             ApplicationEventPublisher publisher) {
-        this.dynamicRouteProperties = dynamicRouteProperties;
+        this.dynamicGatewayProperties = dynamicGatewayProperties;
         this.configService = nacosConfigManager.getConfigService();
         this.publisher = publisher;
         this.configService = nacosConfigManager.getConfigService();
@@ -49,7 +49,8 @@ public class DynamicRouteDefinitionRepository implements RouteDefinitionReposito
      */
     private void addRouteChangeListener() {
         try {
-            configService.addListener(dynamicRouteProperties.getDataId(), dynamicRouteProperties.getGroup(), new Listener() {
+            configService.addListener(dynamicGatewayProperties.getRouteDataId(), dynamicGatewayProperties.getGroup(),
+                    new Listener() {
 
                 //配置更新发布 route刷新事件
                 @Override
@@ -76,7 +77,8 @@ public class DynamicRouteDefinitionRepository implements RouteDefinitionReposito
     @Override
     public Flux<RouteDefinition> getRouteDefinitions() {
         try {
-            final String config = configService.getConfig(dynamicRouteProperties.getDataId(), dynamicRouteProperties.getGroup(), 5000);
+            final String config = configService.getConfig(dynamicGatewayProperties.getRouteDataId(),
+                    dynamicGatewayProperties.getGroup(), 5000);
             if (StringUtils.isNotBlank(config)){
                 List<RouteDefinition> routeDefinitions = JacksonUtils.toObj(config, new TypeReference<List<RouteDefinition>>() {
                 });

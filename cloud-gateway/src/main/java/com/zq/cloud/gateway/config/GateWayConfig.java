@@ -21,16 +21,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@EnableConfigurationProperties(DynamicRouteProperties.class)
+@EnableConfigurationProperties(DynamicGatewayProperties.class)
 @Configuration
 public class GateWayConfig {
 
     @Bean
-    @ConditionalOnProperty(value = "zq.dynamic.dynamicEnable", matchIfMissing = true)
+    @ConditionalOnProperty(value = "zq.dynamic.routeEnable", matchIfMissing = true)
     public DynamicRouteDefinitionRepository dynamicRouteDefinitionRepository(NacosConfigManager nacosConfigManager,
-                                                                             DynamicRouteProperties dynamicRouteProperties,
+                                                                             DynamicGatewayProperties dynamicGatewayProperties,
                                                                              ApplicationEventPublisher publisher) {
-        return new DynamicRouteDefinitionRepository(nacosConfigManager, dynamicRouteProperties, publisher);
+        return new DynamicRouteDefinitionRepository(nacosConfigManager, dynamicGatewayProperties, publisher);
     }
 
 

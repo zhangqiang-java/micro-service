@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @created: 2022/07/02 19:45
  */
 @RestController
-@RequestMapping("/auth/user")
+@RequestMapping("/anon/authuser")
 public class Test {
 
 
@@ -20,5 +20,12 @@ public class Test {
     public String test() {
         BusinessException businessException = new BusinessException("测试异常");
         throw businessException;
+    }
+
+
+    @GetMapping("/test2")
+    public String test2() throws InterruptedException {
+       Thread.sleep(2000);
+       return "2";
     }
 }
