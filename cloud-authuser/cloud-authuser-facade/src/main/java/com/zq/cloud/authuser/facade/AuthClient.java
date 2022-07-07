@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 
 @FeignClient(value = "${cloud-authuser.service-id:cloud-authuser}", path = "/service/authuser/user")
-public interface UserClient {
+public interface AuthClient {
 
     @GetMapping("/checkUserPermission")
     ResultBase<String> checkUserPermission(@RequestBody @Valid UserPermissionCheckDto checkDto);

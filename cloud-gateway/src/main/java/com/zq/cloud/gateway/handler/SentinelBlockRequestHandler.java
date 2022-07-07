@@ -1,7 +1,7 @@
 package com.zq.cloud.gateway.handler;
 
 import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.BlockRequestHandler;
-import com.zq.cloud.constant.StaticFinalConstant;
+import com.zq.cloud.constant.CommonStaticFinalConstant;
 import com.zq.cloud.dto.result.ResultBase;
 import com.zq.cloud.enums.CommonErrorTypeCode;
 import com.zq.cloud.utils.ErrorCodeUtil;
@@ -26,8 +26,6 @@ import java.util.Objects;
 @Component
 public class SentinelBlockRequestHandler implements BlockRequestHandler {
 
-
-
     @Override
     public Mono<ServerResponse> handleRequest(ServerWebExchange exchange, Throwable ex) {
         ServerHttpResponse response = exchange.getResponse();
@@ -38,10 +36,10 @@ public class SentinelBlockRequestHandler implements BlockRequestHandler {
         resultBase.setMessage(ex.getMessage());
 
         Route route = (Route) exchange.getAttributes().get(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
-        Object serviceCodeObj = route.getMetadata().get(StaticFinalConstant.SERVICE_CODE_KEY);
+        Object serviceCodeObj = route.getMetadata().get(CommonStaticFinalConstant.SERVICE_CODE_KEY);
         String serviceCodeStr = Objects.nonNull(serviceCodeObj) ? serviceCodeObj.toString() : "";
         resultBase.setErrorCode(ErrorCodeUtil.crateErrorCode(serviceCodeStr, CommonErrorTypeCode.BLOCK_EXCEPTION));
-        resultBase.setMessage(StaticFinalConstant.OPEN_ERROR_MESSAGE);
+        resultBase.setMessage(CommonStaticFinalConstant.OPEN_ERROR_MESSAGE);
         return ServerResponse.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(Objects.requireNonNull(JacksonUtils.toJsonString(resultBase)));

@@ -3,7 +3,7 @@ package com.zq.cloud.constant;
 /**
  * 静态常量
  */
-public class StaticFinalConstant {
+public class CommonStaticFinalConstant {
 
     /**
      * 未登录

@@ -1,9 +1,8 @@
 package com.zq.cloud.gateway.handler;
 
-import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zq.cloud.constant.StaticFinalConstant;
+import com.zq.cloud.constant.CommonStaticFinalConstant;
 import com.zq.cloud.dto.exception.BusinessException;
 import com.zq.cloud.dto.exception.NotLoginException;
 import com.zq.cloud.dto.result.ResultBase;
@@ -105,10 +104,10 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
 
         //未知异常
-        if (StaticFinalConstant.SUCCESS_CODE.equals(resultBase.getErrorCode())) {
+        if (CommonStaticFinalConstant.SUCCESS_CODE.equals(resultBase.getErrorCode())) {
             resultBase.setErrorCode(ErrorCodeUtil.crateErrorCode(serviceCode, CommonErrorTypeCode.UNKNOWN_ERROR));
         }
-        resultBase.setMessage(StaticFinalConstant.OPEN_ERROR_MESSAGE);
+        resultBase.setMessage(CommonStaticFinalConstant.OPEN_ERROR_MESSAGE);
         return resultBase;
     }
 }

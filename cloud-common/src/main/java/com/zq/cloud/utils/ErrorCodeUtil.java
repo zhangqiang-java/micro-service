@@ -1,6 +1,6 @@
 package com.zq.cloud.utils;
 
-import com.zq.cloud.constant.StaticFinalConstant;
+import com.zq.cloud.constant.CommonStaticFinalConstant;
 import com.zq.cloud.enums.CommonErrorTypeCode;
 import org.apache.commons.lang3.StringUtils;
 
@@ -10,17 +10,17 @@ import org.apache.commons.lang3.StringUtils;
 public class ErrorCodeUtil {
 
     public static String crateErrorCode(CommonErrorTypeCode errorTypeCode) {
-        return StaticFinalConstant.ERROR_TYPE_PREFIX + errorTypeCode.getCode();
+        return CommonStaticFinalConstant.ERROR_TYPE_PREFIX + errorTypeCode.getCode();
     }
 
     public static String crateErrorCode(String serviceCode, CommonErrorTypeCode errorTypeCode) {
         if (StringUtils.isBlank(serviceCode)) {
             return crateErrorCode(errorTypeCode);
         }
-        return StaticFinalConstant.SERVICE_PREFIX + serviceCode + StaticFinalConstant.ERROR_TYPE_PREFIX + errorTypeCode.getCode();
+        return CommonStaticFinalConstant.SERVICE_PREFIX + serviceCode + CommonStaticFinalConstant.ERROR_TYPE_PREFIX + errorTypeCode.getCode();
     }
 
     public static String crateErrorCode(String serviceCode, CommonErrorTypeCode errorTypeCode, String custom) {
-        return crateErrorCode(serviceCode, errorTypeCode) + StaticFinalConstant.CUSTOM_MESSAGE_PREFIX + custom;
+        return crateErrorCode(serviceCode, errorTypeCode) + CommonStaticFinalConstant.CUSTOM_MESSAGE_PREFIX + custom;
     }
 }

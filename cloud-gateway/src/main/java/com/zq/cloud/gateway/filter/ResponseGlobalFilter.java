@@ -2,7 +2,7 @@ package com.zq.cloud.gateway.filter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.zq.cloud.constant.StaticFinalConstant;
+import com.zq.cloud.constant.CommonStaticFinalConstant;
 import com.zq.cloud.gateway.utils.LogHelper;
 import com.zq.cloud.utils.JacksonUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -80,18 +80,18 @@ public class ResponseGlobalFilter implements GlobalFilter, Ordered {
     private String addErrorResultServiceCode(ServerWebExchange exchange, String responseBody) {
         try {
             ObjectNode root = (ObjectNode) JacksonUtils.getObjectMapper().readTree(responseBody);
-            JsonNode errorCodeNode = root.findValue(StaticFinalConstant.ERROR_CODE_KEY);
+            JsonNode errorCodeNode = root.findValue(CommonStaticFinalConstant.ERROR_CODE_KEY);
             if (errorCodeNode != null && errorCodeNode.isTextual()) {
                 String errorCode = errorCodeNode.asText();
                 // 错误码不是空 并且没有添加过serviceCode
                 if (StringUtils.isNotBlank(errorCode)
-                        && !StaticFinalConstant.SUCCESS_CODE.equals(errorCode)
-                        && !errorCode.startsWith(StaticFinalConstant.SERVICE_PREFIX)) {
+                        && !CommonStaticFinalConstant.SUCCESS_CODE.equals(errorCode)
+                        && !errorCode.startsWith(CommonStaticFinalConstant.SERVICE_PREFIX)) {
                     Route route = (Route) exchange.getAttributes().get(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
-                    Object serviceCodeObj = route.getMetadata().get(StaticFinalConstant.SERVICE_CODE_KEY);
+                    Object serviceCodeObj = route.getMetadata().get(CommonStaticFinalConstant.SERVICE_CODE_KEY);
                     String serviceCodeStr = Objects.nonNull(serviceCodeObj) ? serviceCodeObj.toString() : "";
-                    errorCode = StaticFinalConstant.SERVICE_PREFIX + serviceCodeStr + errorCode;
-                    root.put(StaticFinalConstant.ERROR_CODE_KEY, errorCode);
+                    errorCode = CommonStaticFinalConstant.SERVICE_PREFIX + serviceCodeStr + errorCode;
+                    root.put(CommonStaticFinalConstant.ERROR_CODE_KEY, errorCode);
                     return JacksonUtils.getObjectMapper().writeValueAsString(root);
                 }
             }

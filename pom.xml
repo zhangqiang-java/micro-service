@@ -32,6 +32,8 @@
         <cloud-nacos-discovery-starter.version>1.0-SNAPSHOT</cloud-nacos-discovery-starter.version>
         <cloud-common.version>1.0-SNAPSHOT</cloud-common.version>
         <cloud-mybatis-starter.version>1.0-SNAPSHOT</cloud-mybatis-starter.version>
+        <cloud-redis-starter.version>1.0-SNAPSHOT</cloud-redis-starter.version>
+        <cloud-web-starter.version>1.0-SNAPSHOT</cloud-web-starter.version>
 
 
         <mybatis-generator-core.version>1.3.7</mybatis-generator-core.version>
@@ -39,6 +41,7 @@
         <mapper-spring-boot-starter.version>2.1.5</mapper-spring-boot-starter.version>
         <pagehelper-spring-boot-starter.version>1.3.0</pagehelper-spring-boot-starter.version>
         <druid-spring-boot-starter.version>1.2.1</druid-spring-boot-starter.version>
+        <kryo.version>5.0.0-RC9</kryo.version>
 
         <servlet-api.version>2.3</servlet-api.version>
     </properties>
@@ -72,6 +75,11 @@
                 <version>${servlet-api.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>kryo</artifactId>
+                <version>${kryo.version}</version>
+            </dependency>
 
             <!-- https://github.com/abel533/Mapper -->
             <dependency>
@@ -108,6 +116,8 @@
                 <version>${druid-spring-boot-starter.version}</version>
             </dependency>
 
+
+            <!--自定义starter-->
             <dependency>
                 <groupId>com.zq.cloud</groupId>
                 <artifactId>cloud-nacos-discovery-starter</artifactId>
@@ -124,6 +134,19 @@
                 <groupId>com.zq.cloud</groupId>
                 <artifactId>cloud-common</artifactId>
                 <version>${cloud-common.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.zq.cloud</groupId>
+                <artifactId>cloud-redis-starter</artifactId>
+                <version>${cloud-redis-starter.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.zq.cloud</groupId>
+                <artifactId>cloud-web-starter</artifactId>
+                <version>${cloud-web-starter.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

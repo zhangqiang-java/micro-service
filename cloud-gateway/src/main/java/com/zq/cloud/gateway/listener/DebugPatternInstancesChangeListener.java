@@ -11,7 +11,7 @@ import com.alibaba.nacos.client.naming.event.InstancesChangeEvent;
 import com.alibaba.nacos.common.notify.Event;
 import com.alibaba.nacos.common.notify.NotifyCenter;
 import com.alibaba.nacos.common.notify.listener.Subscriber;
-import com.zq.cloud.constant.StaticFinalConstant;
+import com.zq.cloud.constant.CommonStaticFinalConstant;
 import com.zq.cloud.dto.exception.BusinessException;
 import com.zq.cloud.gateway.config.GateWayStaticFinalConstant;
 import com.zq.cloud.starter.nacos.discovery.util.DebugPatternUtil;
@@ -74,7 +74,7 @@ public class DebugPatternInstancesChangeListener extends Subscriber<InstancesCha
             } catch (NacosException e) {
                 //网关code码写死为000  001
                 throw new BusinessException(GateWayStaticFinalConstant.SERVER_CODE,
-                        StaticFinalConstant.OPEN_ERROR_MESSAGE, GateWayStaticFinalConstant.NACOS_EXCEPTION_CODE);
+                        CommonStaticFinalConstant.OPEN_ERROR_MESSAGE, GateWayStaticFinalConstant.NACOS_EXCEPTION_CODE);
             }
 
         }

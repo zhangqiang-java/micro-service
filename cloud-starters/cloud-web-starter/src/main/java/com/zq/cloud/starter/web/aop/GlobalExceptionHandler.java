@@ -1,6 +1,6 @@
 package com.zq.cloud.starter.web.aop;
 
-import com.zq.cloud.constant.StaticFinalConstant;
+import com.zq.cloud.constant.CommonStaticFinalConstant;
 import com.zq.cloud.dto.exception.BusinessException;
 import com.zq.cloud.dto.exception.NotLoginException;
 import com.zq.cloud.dto.result.ResultError;
@@ -50,7 +50,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResultError<Void> handleException(Exception ex, HttpServletRequest request, HttpServletResponse response) {
         log.error("来自{}的请求：{}，发生未知异常：{}", RealIpAddressUtil.getIpAddress(request), request.getRequestURI(), ex);
-        return ResultError.error(ErrorCodeUtil.crateErrorCode(CommonErrorTypeCode.UNKNOWN_ERROR), StaticFinalConstant.OPEN_ERROR_MESSAGE);
+        return ResultError.error(ErrorCodeUtil.crateErrorCode(CommonErrorTypeCode.UNKNOWN_ERROR), CommonStaticFinalConstant.OPEN_ERROR_MESSAGE);
     }
 
 
@@ -80,7 +80,7 @@ public class GlobalExceptionHandler {
         }
 
         //具体原因通过code表示， 对外报的异常提醒统一
-        return ResultError.error(errorCode, StaticFinalConstant.OPEN_ERROR_MESSAGE);
+        return ResultError.error(errorCode, CommonStaticFinalConstant.OPEN_ERROR_MESSAGE);
     }
 
 }

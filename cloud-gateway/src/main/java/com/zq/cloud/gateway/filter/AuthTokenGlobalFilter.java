@@ -1,8 +1,8 @@
 package com.zq.cloud.gateway.filter;
 
-import com.zq.cloud.authuser.facade.UserClient;
+import com.zq.cloud.authuser.facade.AuthClient;
 import com.zq.cloud.authuser.facade.dto.UserPermissionCheckDto;
-import com.zq.cloud.constant.StaticFinalConstant;
+import com.zq.cloud.constant.CommonStaticFinalConstant;
 import com.zq.cloud.dto.exception.NotLoginException;
 import com.zq.cloud.dto.result.ResultBase;
 import com.zq.cloud.gateway.config.GateWayStaticFinalConstant;
@@ -30,7 +30,7 @@ import java.util.Objects;
 public class AuthTokenGlobalFilter implements GlobalFilter, Ordered {
 
     @Autowired
-    private UserClient userClient;
+    private AuthClient userClient;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -53,7 +53,7 @@ public class AuthTokenGlobalFilter implements GlobalFilter, Ordered {
         ResultBase<String> checkResult = userClient.checkUserPermission(checkDto);
         if (!checkResult.isSuccess() || Objects.isNull(checkResult.getData())) {
             //未登录异常
-            if (StaticFinalConstant.NOT_LOGIN_CODE.equals(checkResult.getErrorCode())) {
+            if (CommonStaticFinalConstant.NOT_LOGIN_CODE.equals(checkResult.getErrorCode())) {
                 throw new NotLoginException();
             }
             BusinessAssertUtils.fail(checkResult.getMessage());
@@ -61,7 +61,7 @@ public class AuthTokenGlobalFilter implements GlobalFilter, Ordered {
 
         // 将userInfo信息放到Header中
         ServerHttpRequest.Builder requestBuilder = exchange.getRequest().mutate();
-        WebFluxUtil.putHeader(requestBuilder, StaticFinalConstant.USER_INFO_HEADER_NAME, checkResult.getData());
+        WebFluxUtil.putHeader(requestBuilder, CommonStaticFinalConstant.USER_INFO_HEADER_NAME, checkResult.getData());
         return chain.filter(exchange.mutate().request(requestBuilder.build()).build());
     }
 

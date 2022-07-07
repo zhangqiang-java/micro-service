@@ -1,6 +1,6 @@
 package com.zq.cloud.dto.exception;
 
-import com.zq.cloud.constant.StaticFinalConstant;
+import com.zq.cloud.constant.CommonStaticFinalConstant;
 import lombok.Data;
 
 /**
@@ -16,7 +16,7 @@ public class NotLoginException extends RuntimeException {
 
     public NotLoginException() {
         super();
-        this.code = StaticFinalConstant.NOT_LOGIN_CODE;
+        this.code = CommonStaticFinalConstant.NOT_LOGIN_CODE;
         this.message = "用户未登录或已过期,请重新登录";
     }
 }

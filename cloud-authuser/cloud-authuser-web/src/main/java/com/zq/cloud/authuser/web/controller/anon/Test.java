@@ -1,4 +1,4 @@
-package com.zq.cloud.authuser.web.controller;
+package com.zq.cloud.authuser.web.controller.anon;
 
 import com.zq.cloud.dto.exception.BusinessException;
 import org.springframework.web.bind.annotation.GetMapping;
