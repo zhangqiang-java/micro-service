@@ -103,10 +103,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
             }
         }
 
-        //Sentinel 限流异常
-        if (BlockException.isBlockException(ex)) {
-            resultBase.setErrorCode(ErrorCodeUtil.crateErrorCode(serviceCode, CommonErrorTypeCode.BLOCK_EXCEPTION));
-        }
+
         //未知异常
         if (StaticFinalConstant.SUCCESS_CODE.equals(resultBase.getErrorCode())) {
             resultBase.setErrorCode(ErrorCodeUtil.crateErrorCode(serviceCode, CommonErrorTypeCode.UNKNOWN_ERROR));
