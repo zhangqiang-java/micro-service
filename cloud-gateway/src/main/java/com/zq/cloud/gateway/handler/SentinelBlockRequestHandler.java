@@ -19,6 +19,9 @@ import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
+/**
+ * 自定义限流处理
+ */
 @Slf4j
 @Component
 public class SentinelBlockRequestHandler implements BlockRequestHandler {
@@ -34,7 +37,6 @@ public class SentinelBlockRequestHandler implements BlockRequestHandler {
         resultBase.setSuccess(false);
         resultBase.setMessage(ex.getMessage());
 
-        //Sentinel 限流异常
         Route route = (Route) exchange.getAttributes().get(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
         Object serviceCodeObj = route.getMetadata().get(StaticFinalConstant.SERVICE_CODE_KEY);
         String serviceCodeStr = Objects.nonNull(serviceCodeObj) ? serviceCodeObj.toString() : "";
