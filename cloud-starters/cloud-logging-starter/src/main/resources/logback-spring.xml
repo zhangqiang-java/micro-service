@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+    <property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} [%X{mdc}] %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+    <property name="FILE_LOG_PATTERN" value="${FILE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} [%X{mdc}] ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+    <property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}/spring.log}"/>
+
+    <logger name="org.apache.catalina.startup.DigesterFactory" level="ERROR"/>
+    <logger name="org.apache.catalina.util.LifecycleBase" level="ERROR"/>
+    <logger name="org.apache.coyote.http11.Http11NioProtocol" level="WARN"/>
+    <logger name="org.apache.sshd.common.util.SecurityUtils" level="WARN"/>
+    <logger name="org.apache.tomcat.util.net.NioSelectorPool" level="WARN"/>
+    <logger name="org.eclipse.jetty.util.component.AbstractLifeCycle" level="ERROR"/>
+    <logger name="org.hibernate.validator.internal.util.Version" level="WARN"/>
+    <logger name="org.springframework.boot.actuate.endpoint.jmx" level="WARN"/>
+
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="INFO-FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <file>${LOG_FILE}-info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <cleanHistoryOnStart>${LOG_FILE_CLEAN_HISTORY_ON_START:-false}</cleanHistoryOnStart>
+            <fileNamePattern>${ROLLING_FILE_NAME_PATTERN:-${LOG_FILE}-info.%d{yyyy-MM-dd}.%i.gz}</fileNamePattern>
+            <maxFileSize>${LOG_FILE_MAX_SIZE:-10MB}</maxFileSize>
+            <maxHistory>${LOG_FILE_MAX_HISTORY:-7}</maxHistory>
+            <totalSizeCap>${LOG_FILE_TOTAL_SIZE_CAP:-0}</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="ERROR-FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <file>${LOG_FILE}-error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <cleanHistoryOnStart>${LOG_FILE_CLEAN_HISTORY_ON_START:-false}</cleanHistoryOnStart>
+            <fileNamePattern>${ROLLING_FILE_NAME_PATTERN:-${LOG_FILE}-error.%d{yyyy-MM-dd}.%i.gz}</fileNamePattern>
+            <maxFileSize>${LOG_FILE_MAX_SIZE:-10MB}</maxFileSize>
+            <maxHistory>${LOG_FILE_MAX_HISTORY:-7}</maxHistory>
+            <totalSizeCap>${LOG_FILE_TOTAL_SIZE_CAP:-0}</totalSizeCap>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
+    <!-- windows开发环境打印Console日志-->
+    <if condition='property("os.name").toUpperCase().contains("WINDOWS")
+                    || property("os.name").toUpperCase().contains("MAC")'>
+        <then>
+            <root level="DEBUG">
+                <appender-ref ref="CONSOLE"/>
+            </root>
+        </then>
+    </if>
+
+    <root level="INFO">
+        <appender-ref ref="INFO-FILE" />
+        <appender-ref ref="ERROR-FILE" />
+    </root>
+</configuration>

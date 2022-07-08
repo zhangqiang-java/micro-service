@@ -1,0 +1,3 @@
+org.springframework.context.ApplicationContextInitializer=\
+ com.zq.cloud.starter.logging.LoggingConfigApplicationListener
+

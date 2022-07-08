@@ -17,7 +17,7 @@ public class MyBatisContextInitializer implements ApplicationContextInitializer<
         HashMap<String, Object> map = new HashMap<>();
         map.put("mybatis.mapper-locations", "classpath*:mybatis/*.xml");
         map.put("mybatis.configuration.map-underscore-to-camel-case", "true");
-        map.put("zds.cloud.mysql.url.params", "useSSL=false&useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia%2FShanghai&allowMultiQueries=true");
+        map.put("zq.cloud.mysql.url.params", "useSSL=false&useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia%2FShanghai&allowMultiQueries=true");
         map.put("spring.datasource.druid.initialSize", 10);
         map.put("spring.datasource.druid.minIdle", 1);
         map.put("spring.datasource.druid.maxActive", 100);

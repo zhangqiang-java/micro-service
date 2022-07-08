@@ -34,6 +34,7 @@
         <cloud-mybatis-starter.version>1.0-SNAPSHOT</cloud-mybatis-starter.version>
         <cloud-redis-starter.version>1.0-SNAPSHOT</cloud-redis-starter.version>
         <cloud-web-starter.version>1.0-SNAPSHOT</cloud-web-starter.version>
+        <cloud-logging-starter.version>1.0-SNAPSHOT</cloud-logging-starter.version>
 
 
         <mybatis-generator-core.version>1.3.7</mybatis-generator-core.version>
@@ -147,6 +148,12 @@
                 <groupId>com.zq.cloud</groupId>
                 <artifactId>cloud-web-starter</artifactId>
                 <version>${cloud-web-starter.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.zq.cloud</groupId>
+                <artifactId>cloud-logging-starter</artifactId>
+                <version>${cloud-logging-starter.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

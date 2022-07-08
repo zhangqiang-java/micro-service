@@ -33,7 +33,10 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-
+        <dependency>
+            <groupId>com.zq.cloud</groupId>
+            <artifactId>cloud-logging-starter</artifactId>
+        </dependency>
 
     </dependencies>
 
