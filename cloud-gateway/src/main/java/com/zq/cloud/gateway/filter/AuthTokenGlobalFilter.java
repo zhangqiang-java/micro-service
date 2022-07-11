@@ -30,7 +30,7 @@ import java.util.Objects;
 public class AuthTokenGlobalFilter implements GlobalFilter, Ordered {
 
     @Autowired
-    private AuthClient userClient;
+    private AuthClient authClient;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -50,7 +50,7 @@ public class AuthTokenGlobalFilter implements GlobalFilter, Ordered {
         UserPermissionCheckDto checkDto = new UserPermissionCheckDto();
         checkDto.setToken(token);
         checkDto.setPath(request.getPath().value());
-        ResultBase<String> checkResult = userClient.checkUserPermission(checkDto);
+        ResultBase<String> checkResult = authClient.checkUserPermission(checkDto);
         if (!checkResult.isSuccess() || Objects.isNull(checkResult.getData())) {
             //未登录异常
             if (CommonStaticFinalConstant.NOT_LOGIN_CODE.equals(checkResult.getErrorCode())) {

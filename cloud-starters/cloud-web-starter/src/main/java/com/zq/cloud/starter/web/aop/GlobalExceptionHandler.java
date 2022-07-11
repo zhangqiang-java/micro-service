@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ValidationException;
 
 /**
  * 通用异常处理类
@@ -44,6 +45,12 @@ public class GlobalExceptionHandler {
     public ResultError<Void> handleException(NotLoginException ex, HttpServletRequest request, HttpServletResponse response) {
         log.error("来自{}的请求：{}，发生未登录异常：{}", RealIpAddressUtil.getIpAddress(request), request.getRequestURI(), ex);
         return ResultError.error(ex.getCode(), ex.getMessage());
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public Object handleException(ValidationException e, HttpServletRequest request, HttpServletResponse response) {
+        log.error("参数错误：url={}，{}", request.getRequestURI(), e.getMessage());
+        return ResultError.error(CommonErrorTypeCode.INVALID_PARAM.getCode(), e.getMessage());
     }
 
     @ResponseBody

@@ -1,11 +1,15 @@
 package com.zq.cloud.authuser.dal.model;
 
-import com.zq.cloud.starter.mybatis.model.BaseModel;
-import java.util.Date;
-import javax.persistence.*;
+import com.zq.cloud.starter.mybatis.model.BaseVersionModel;
 
-@Table(name = "user")
-public class User extends BaseModel {
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.util.Date;
+
+@Table(name = "user_ass")
+public class User extends BaseVersionModel {
     /**
      * 主键ID
      */
@@ -15,34 +19,22 @@ public class User extends BaseModel {
     private Long id;
 
     /**
-     * 系统标识
-     */
-    @Column(name = "system_code")
-    private String systemCode;
-
-    /**
      * 用户昵称
      */
     @Column(name = "nickname")
     private String nickname;
 
     /**
-     * M:男 F:女 N:未知
+     * 用户头像id
      */
-    @Column(name = "sex")
-    private String sex;
+    @Column(name = "head_portrait_id")
+    private Long headPortraitId;
 
     /**
      * 生日
      */
     @Column(name = "birthday")
     private Date birthday;
-
-    /**
-     * 头像
-     */
-    @Column(name = "head_portrait")
-    private String headPortrait;
 
     /**
      * 地址
@@ -69,28 +61,10 @@ public class User extends BaseModel {
     private String realName;
 
     /**
-     * 证件类型
-     */
-    @Column(name = "certificate_type")
-    private String certificateType;
-
-    /**
-     * 证件号码
-     */
-    @Column(name = "certificate_no")
-    private String certificateNo;
-
-    /**
      * 是否有效 0无效 1有效
      */
     @Column(name = "is_available")
     private Boolean isAvailable;
-
-    /**
-     * 是否锁定 0解锁 1锁定
-     */
-    @Column(name = "is_locked")
-    private Boolean isLocked;
 
     /**
      * 上次登录时间
@@ -147,24 +121,6 @@ public class User extends BaseModel {
     }
 
     /**
-     * 获取系统标识
-     *
-     * @return system_code - 系统标识
-     */
-    public String getSystemCode() {
-        return systemCode;
-    }
-
-    /**
-     * 设置系统标识
-     *
-     * @param systemCode 系统标识
-     */
-    public void setSystemCode(String systemCode) {
-        this.systemCode = systemCode;
-    }
-
-    /**
      * 获取用户昵称
      *
      * @return nickname - 用户昵称
@@ -182,23 +138,25 @@ public class User extends BaseModel {
         this.nickname = nickname;
     }
 
+
     /**
-     * 获取M:男 F:女 N:未知
+     * 获取头像资源id
      *
-     * @return sex - M:男 F:女 N:未知
+     * @return headPortraitId - 头像资源id
      */
-    public String getSex() {
-        return sex;
+    public Long getHeadPortraitId() {
+        return headPortraitId;
     }
 
     /**
-     * 设置M:男 F:女 N:未知
+     * 设置头像资源id
      *
-     * @param sex M:男 F:女 N:未知
+     * @param headPortraitId 头像资源id
      */
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setHeadPortraitId(Long headPortraitId) {
+        this.headPortraitId = headPortraitId;
     }
+
 
     /**
      * 获取生日
@@ -216,24 +174,6 @@ public class User extends BaseModel {
      */
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
-    }
-
-    /**
-     * 获取头像
-     *
-     * @return head_portrait - 头像
-     */
-    public String getHeadPortrait() {
-        return headPortrait;
-    }
-
-    /**
-     * 设置头像
-     *
-     * @param headPortrait 头像
-     */
-    public void setHeadPortrait(String headPortrait) {
-        this.headPortrait = headPortrait;
     }
 
     /**
@@ -309,42 +249,6 @@ public class User extends BaseModel {
     }
 
     /**
-     * 获取证件类型
-     *
-     * @return certificate_type - 证件类型
-     */
-    public String getCertificateType() {
-        return certificateType;
-    }
-
-    /**
-     * 设置证件类型
-     *
-     * @param certificateType 证件类型
-     */
-    public void setCertificateType(String certificateType) {
-        this.certificateType = certificateType;
-    }
-
-    /**
-     * 获取证件号码
-     *
-     * @return certificate_no - 证件号码
-     */
-    public String getCertificateNo() {
-        return certificateNo;
-    }
-
-    /**
-     * 设置证件号码
-     *
-     * @param certificateNo 证件号码
-     */
-    public void setCertificateNo(String certificateNo) {
-        this.certificateNo = certificateNo;
-    }
-
-    /**
      * 获取是否有效 0无效 1有效
      *
      * @return is_available - 是否有效 0无效 1有效
@@ -360,24 +264,6 @@ public class User extends BaseModel {
      */
     public void setIsAvailable(Boolean isAvailable) {
         this.isAvailable = isAvailable;
-    }
-
-    /**
-     * 获取是否锁定 0解锁 1锁定
-     *
-     * @return is_locked - 是否锁定 0解锁 1锁定
-     */
-    public Boolean getIsLocked() {
-        return isLocked;
-    }
-
-    /**
-     * 设置是否锁定 0解锁 1锁定
-     *
-     * @param isLocked 是否锁定 0解锁 1锁定
-     */
-    public void setIsLocked(Boolean isLocked) {
-        this.isLocked = isLocked;
     }
 
     /**
@@ -495,19 +381,14 @@ public class User extends BaseModel {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", systemCode=").append(systemCode);
         sb.append(", nickname=").append(nickname);
-        sb.append(", sex=").append(sex);
+        sb.append(",headPortraitId=").append(headPortraitId);
         sb.append(", birthday=").append(birthday);
-        sb.append(", headPortrait=").append(headPortrait);
         sb.append(", address=").append(address);
         sb.append(", mobile=").append(mobile);
         sb.append(", email=").append(email);
         sb.append(", realName=").append(realName);
-        sb.append(", certificateType=").append(certificateType);
-        sb.append(", certificateNo=").append(certificateNo);
         sb.append(", isAvailable=").append(isAvailable);
-        sb.append(", isLocked=").append(isLocked);
         sb.append(", lastLoginTime=").append(lastLoginTime);
         sb.append(", lastLoginIp=").append(lastLoginIp);
         sb.append(", lastLoginAddress=").append(lastLoginAddress);

@@ -20,8 +20,8 @@
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://116.62.148.139:3306/cloud_user?useUnicode=true&amp;characterEncoding=UTF8&amp;serverTimezone=GMT"
-                        userId="root"
-                        password="zq520123">
+                        userId=""
+                        password="">
         </jdbcConnection>
 
         <javaModelGenerator targetPackage="com.zq.cloud.authuser.dal.model"
@@ -36,10 +36,39 @@
 
 
 
-        <table tableName="user_asas">
+        <table tableName="user_ass">
             <property name="rootClass" value="com.zq.cloud.starter.mybatis.model.BaseModel"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
+
+
+
+<!--        <table tableName="password_account">-->
+<!--            <property name="rootClass" value="com.zq.cloud.starter.mybatis.model.BaseModel"/>-->
+<!--            <generatedKey column="id" sqlStatement="JDBC"/>-->
+<!--        </table>-->
+
+<!--        <table tableName="resource">-->
+<!--            <property name="rootClass" value="com.zq.cloud.starter.mybatis.model.BaseModel"/>-->
+<!--            <generatedKey column="id" sqlStatement="JDBC"/>-->
+<!--        </table>-->
+
+
+<!--        <table tableName="role">-->
+<!--            <property name="rootClass" value="com.zq.cloud.starter.mybatis.model.BaseModel"/>-->
+<!--            <generatedKey column="id" sqlStatement="JDBC"/>-->
+<!--        </table>-->
+
+
+<!--        <table tableName="role_resource">-->
+<!--            <property name="rootClass" value="com.zq.cloud.starter.mybatis.model.BaseModel"/>-->
+<!--            <generatedKey column="id" sqlStatement="JDBC"/>-->
+<!--        </table>-->
+
+<!--        <table tableName="role_user">-->
+<!--            <property name="rootClass" value="com.zq.cloud.starter.mybatis.model.BaseModel"/>-->
+<!--            <generatedKey column="id" sqlStatement="JDBC"/>-->
+<!--        </table>-->
 
     </context>
 </generatorConfiguration>

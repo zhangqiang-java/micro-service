@@ -2,6 +2,7 @@ package com.zq.cloud.utils;
 
 
 import com.zq.cloud.dto.exception.BusinessException;
+import com.zq.cloud.dto.exception.NotLoginException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -307,6 +308,19 @@ public class BusinessAssertUtils {
         if (expected.contains(actual)) {
             logger.error("应该为不包含: actual={},expected={}, message={},params={}", actual, expected, message, params);
             throw new BusinessException(message);
+        }
+    }
+
+
+    /**
+     * 用户未登录
+     *
+     * @param flag
+     */
+    public static void notLongin(boolean flag, String message, Object... params) {
+        if (flag) {
+            logger.error("用户未登录: flag={}, message={}, params={}", flag, message, params);
+            throw new NotLoginException();
         }
     }
 

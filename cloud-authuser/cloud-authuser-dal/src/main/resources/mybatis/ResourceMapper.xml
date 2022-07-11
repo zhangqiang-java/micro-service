@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zq.cloud.authuser.dal.mapper.ResourceMapper">
+    <resultMap id="BaseResultMap" type="com.zq.cloud.authuser.dal.model.Resource">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="is_available" jdbcType="BIT" property="isAvailable"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+    </resultMap>
+    <select id="findResourceByUserIdAndType" resultType="com.zq.cloud.authuser.dal.model.Resource">
+        SELECT r.*
+        FROM user u
+                 INNER JOIN role_user ru ON ru.user_id = u.id
+                 INNER JOIN role_resource rr ON rr.role_id = ru.role_id
+                 INNER JOIN resource r ON r.id = rr.resource_id
+        WHERE u.id = #{userId}
+          AND r.type = #{type}
+    </select>
+</mapper>
