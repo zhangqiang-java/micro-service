@@ -1,15 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zq.cloud.authuser.dal.mapper.RoleMapper">
-  <resultMap id="BaseResultMap" type="com.zq.cloud.authuser.dal.model.Role">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="is_available" jdbcType="BIT" property="isAvailable" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.zq.cloud.authuser.dal.model.Role">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="is_available" jdbcType="BIT" property="isAvailable"/>
+    </resultMap>
+
+
+    <select id="findPage" resultType="com.zq.cloud.authuser.dal.model.Role">
+        SELECT r.*
+        FROM role_user ru
+        INNER JOIN role r ON r.id = ru.role_id
+        <where>
+            <if test="dto.name != null and dto.name !=''">
+                and r.name like concat('%',#{dto.name},'%')
+            </if>
+
+            <if test="dto.description != null and dto.description !=''">
+                and r.description like concat('%',#{dto.description},'%')
+            </if>
+
+            <if test="dto.isAvailable != null ">
+                and r.is_available =#{dto.isAvailable}
+            </if>
+
+            <if test="dto.userId != null ">
+                and ru.user_id =#{dto.userId}
+            </if>
+        </where>
+    </select>
+
 </mapper>

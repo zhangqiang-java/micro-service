@@ -8,6 +8,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
     <result column="role_id" jdbcType="BIGINT" property="roleId" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
   </resultMap>

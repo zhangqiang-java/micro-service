@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @ApiModel
-public class UserStartStopDto extends DtoBase {
+public class UserEnableDto extends DtoBase {
 
     /**
      * 用户id

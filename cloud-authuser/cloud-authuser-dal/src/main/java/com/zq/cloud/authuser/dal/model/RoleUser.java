@@ -1,10 +1,14 @@
 package com.zq.cloud.authuser.dal.model;
 
-import com.zq.cloud.starter.mybatis.model.BaseModel;
-import javax.persistence.*;
+import com.zq.cloud.starter.mybatis.model.BaseVersionModel;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Table(name = "role_user")
-public class RoleUser extends BaseModel {
+public class RoleUser extends BaseVersionModel {
     /**
      * 主键ID
      */

@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -46,7 +48,19 @@ public class AuthServiceImpl implements AuthService {
         BusinessAssertUtils.notLongin(StringUtils.isBlank(userId), "token不存在或已过期");
         User user = userMapper.selectByPrimaryKey(Integer.parseInt(userId));
         BusinessAssertUtils.isTrue(Objects.nonNull(user) && user.getIsAvailable(), "用户不存在或已无效", userId);
-        List<Resource> resourceByUserIdAndType = resourceMapper.findResourceByUserIdAndType(user.getId(), ResourceTypeEnum.INTERFACE.code());
+        List<Resource> resourceByUserIdAndType = new ArrayList<>();
+        if (user.getIsAdmin()) {
+            resourceByUserIdAndType = resourceMapper.findAllInterface();
+        } else {
+            //菜单权限
+            List<Resource> allMenuResource = resourceMapper.findResourceByUserIdAndType(user.getId(), ResourceTypeEnum.MENU.code(), Boolean.TRUE);
+            //具体接口权限
+            if (!CollectionUtils.isEmpty(allMenuResource)) {
+                Set<Long> menuResourceIdSet = allMenuResource.stream().map(Resource::getId).collect(Collectors.toSet());
+                resourceByUserIdAndType = resourceMapper.findByParentIdSet(menuResourceIdSet, ResourceTypeEnum.INTERFACE.code(), Boolean.TRUE);
+            }
+
+        }
         BusinessAssertUtils.notEmpty(resourceByUserIdAndType, "用户没有该接口访问权限");
 
         Set<String> interfaceUrlSet = resourceByUserIdAndType.stream().map(Resource::getUrl).collect(Collectors.toSet());

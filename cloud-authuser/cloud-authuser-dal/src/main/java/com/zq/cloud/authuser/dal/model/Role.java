@@ -1,10 +1,14 @@
 package com.zq.cloud.authuser.dal.model;
 
-import com.zq.cloud.starter.mybatis.model.BaseModel;
-import javax.persistence.*;
+import com.zq.cloud.starter.mybatis.model.BaseVersionModel;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Table(name = "role")
-public class Role extends BaseModel {
+public class Role extends BaseVersionModel {
     /**
      * 主键ID
      */
@@ -20,7 +24,7 @@ public class Role extends BaseModel {
     private String name;
 
     /**
-     * 角色显示名称
+     * 备注
      */
     @Column(name = "description")
     private String description;
@@ -68,18 +72,18 @@ public class Role extends BaseModel {
     }
 
     /**
-     * 获取角色显示名称
+     * 获取备注
      *
-     * @return description - 角色显示名称
+     * @return description - 备注
      */
     public String getDescription() {
         return description;
     }
 
     /**
-     * 设置角色显示名称
+     * 设置备注
      *
-     * @param description 角色显示名称
+     * @param description 备注
      */
     public void setDescription(String description) {
         this.description = description;

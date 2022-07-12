@@ -1,11 +1,7 @@
 package com.zq.cloud.authuser.core.user.service;
 
-import com.github.pagehelper.Page;
-import com.zq.cloud.authuser.core.user.dto.UserCreateDto;
-import com.zq.cloud.authuser.core.user.dto.UserPageRequestDto;
-import com.zq.cloud.authuser.core.user.dto.UserStartStopDto;
-import com.zq.cloud.authuser.core.user.dto.UserUpdateDto;
-import com.zq.cloud.authuser.dal.model.User;
+import com.zq.cloud.authuser.core.user.dto.*;
+import com.zq.cloud.dto.result.PageResult;
 
 public interface UserService {
     /**
@@ -28,12 +24,12 @@ public interface UserService {
      * @param pageRequestDto
      * @return
      */
-    Page<User> findPage(UserPageRequestDto pageRequestDto);
+    PageResult<UserVo> findPage(UserPageRequestDto pageRequestDto);
 
     /**
      * 启停用用户
      *
-     * @param startStopDto
+     * @param enableDto
      */
-    void enable(UserStartStopDto startStopDto);
+    void enable(UserEnableDto enableDto);
 }

@@ -1,10 +1,7 @@
 package com.zq.cloud.authuser.web.controller.biz.user;
 
 import com.github.pagehelper.Page;
-import com.zq.cloud.authuser.core.user.dto.UserCreateDto;
-import com.zq.cloud.authuser.core.user.dto.UserPageRequestDto;
-import com.zq.cloud.authuser.core.user.dto.UserStartStopDto;
-import com.zq.cloud.authuser.core.user.dto.UserUpdateDto;
+import com.zq.cloud.authuser.core.user.dto.*;
 import com.zq.cloud.authuser.core.user.service.UserService;
 import com.zq.cloud.authuser.dal.model.User;
 import com.zq.cloud.dto.result.PageResult;
@@ -63,9 +60,10 @@ public class UserController {
      */
     @PostMapping("/update")
     @ApiOperation("停启用用户")
-    public ResultBase<Void> enable(@Validated @RequestBody UserStartStopDto startStopDto) {
+    public ResultBase<Void> enable(@Validated @RequestBody UserEnableDto startStopDto) {
         UserContext.CurrentUser currentUser = UserContext.get().getUser();
         BusinessAssertUtils.isTrue(currentUser.getIsAdmin(), "只有管理员能够停启用用户");
+        BusinessAssertUtils.isFalse(currentUser.getId().equals(startStopDto.getId()), "不能停启用自己");
         userService.enable(startStopDto);
         return ResultBase.success();
     }
@@ -78,8 +76,7 @@ public class UserController {
      */
     @PostMapping("/findPage")
     @ApiOperation("分页查询")
-    public PageResult<User> findPage(@Validated @RequestBody UserPageRequestDto pageRequestDto) {
-        Page<User> page = userService.findPage(pageRequestDto);
-        return PageResult.from(page.getPageNum(), page.getPageNum(), page.getResult());
+    public PageResult<UserVo> findPage(@Validated @RequestBody UserPageRequestDto pageRequestDto) {
+        return userService.findPage(pageRequestDto);
     }
 }

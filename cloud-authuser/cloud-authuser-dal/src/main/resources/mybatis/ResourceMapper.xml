@@ -24,5 +24,26 @@
                  INNER JOIN resource r ON r.id = rr.resource_id
         WHERE u.id = #{userId}
           AND r.type = #{type}
+          ANd r.is_available = #{isAvailable}
+          And ru.is_available = #{isAvailable}
+
+    </select>
+    <select id="findByRoleId" resultType="com.zq.cloud.authuser.dal.model.Resource">
+        SELECT r.*
+        FROM resource r
+                 INNER JOIN role_resource rr ON r.id = rr.resource_id
+        WHERE rr.role_id = #{roleId}
+    </select>
+    <select id="findByParentIdSet" resultType="com.zq.cloud.authuser.dal.model.Resource">
+        select * from resource
+        where
+        is_available = #{isAvailable}
+        AND type = #{type}
+        <if test="parentIds != null and parentIds.size>0">
+            parent_id in
+            <foreach collection="parentIds" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
     </select>
 </mapper>

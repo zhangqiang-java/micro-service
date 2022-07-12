@@ -16,6 +16,7 @@
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="real_name" jdbcType="VARCHAR" property="realName"/>
         <result column="is_available" jdbcType="BIT" property="isAvailable"/>
+        <result column="is_admin" jdbcType="BIT" property="isAdmin"/>
         <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
         <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp"/>
         <result column="last_login_address" jdbcType="VARCHAR" property="lastLoginAddress"/>

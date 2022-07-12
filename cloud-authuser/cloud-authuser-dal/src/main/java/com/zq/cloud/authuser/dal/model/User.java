@@ -66,6 +66,13 @@ public class User extends BaseVersionModel {
     @Column(name = "is_available")
     private Boolean isAvailable;
 
+
+    /**
+     * 是否是管理员 0不是 1是管理员
+     */
+    @Column(name = "is_admin")
+    private Boolean isAdmin;
+
     /**
      * 上次登录时间
      */
@@ -266,6 +273,26 @@ public class User extends BaseVersionModel {
         this.isAvailable = isAvailable;
     }
 
+
+    /**
+     * 获取是否是管理员 0不是 1是
+     *
+     * @return isAdmin - 是否是管理员 0不是 1是
+     */
+    public Boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    /**
+     * 设置是否是管理员 0不是 1是
+     *
+     * @param isAdmin 是否是管理员 0不是 1是
+     */
+    public void setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
+
     /**
      * 获取上次登录时间
      *
@@ -389,6 +416,7 @@ public class User extends BaseVersionModel {
         sb.append(", email=").append(email);
         sb.append(", realName=").append(realName);
         sb.append(", isAvailable=").append(isAvailable);
+        sb.append(", isAdmin=").append(isAdmin);
         sb.append(", lastLoginTime=").append(lastLoginTime);
         sb.append(", lastLoginIp=").append(lastLoginIp);
         sb.append(", lastLoginAddress=").append(lastLoginAddress);
