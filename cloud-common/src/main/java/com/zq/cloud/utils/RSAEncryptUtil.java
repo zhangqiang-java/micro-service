@@ -24,8 +24,7 @@ import java.util.Map;
  * RSA加解密工具类
  */
 @Slf4j
-public class RSASecurityUtils {
-
+public class RSAEncryptUtil {
 
     //加密算法
     public final static String RSA = "RSA";
@@ -33,10 +32,14 @@ public class RSASecurityUtils {
     public static final String SIGN_ALGORITHMS = "SHA256withRSA";
     //签名摘要
     public static final String DIGEST = "SHA-256";
-    //RSA最大加密明文大小
-    private static final int MAX_ENCRYPT_BLOCK = 117;
-    //RSA最大解密密文大小
-    private static final int MAX_DECRYPT_BLOCK = 128;
+    //参考https://cloud.tencent.com/developer/article/1199963 具体参考
+    //注意密钥长度 和加密明文，解密密文的关系
+    //密钥大小
+    public static final int SIZE = 2048;
+    //RSA分段加密明文大小
+    private static final int ENCRYPT_BLOCK = SIZE / 8 - 11;
+    //RSA分段解密密文大小
+    private static final int DECRYPT_BLOCK = SIZE / 8;
 
     private static final String ENCODE = "UTF-8";
 
@@ -53,7 +56,7 @@ public class RSASecurityUtils {
             // KeyPairGenerator类用于生成公钥和私钥对，基于RSA算法生成对象
             KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(RSA);
             // 初始化密钥对生成器，密钥大小为96-2048位
-            keyPairGen.initialize(2048);
+            keyPairGen.initialize(SIZE);
             // 生成一个密钥对，保存在keyPair中
             KeyPair keyPair = keyPairGen.generateKeyPair();
             // 得到私钥
@@ -123,7 +126,7 @@ public class RSASecurityUtils {
             Cipher cipher = Cipher.getInstance(RSA);
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             byte[] sourceData = clearText.getBytes(ENCODE);
-            byte[] encryptedData = dateSplitHandle(cipher, sourceData, MAX_ENCRYPT_BLOCK);
+            byte[] encryptedData = dateSplitHandle(cipher, sourceData, ENCRYPT_BLOCK);
             return Base64.getEncoder().encodeToString(encryptedData);
         } catch (NoSuchAlgorithmException e) {
             log.warn("加密失败:无此算法", e);
@@ -171,7 +174,7 @@ public class RSASecurityUtils {
             byte[] encryptedData = Base64.getDecoder().decode(cipherText);
             Cipher cipher = Cipher.getInstance(RSA);
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
-            byte[] decryptedData = dateSplitHandle(cipher, encryptedData, MAX_DECRYPT_BLOCK);
+            byte[] decryptedData = dateSplitHandle(cipher, encryptedData, DECRYPT_BLOCK);
             return new String(decryptedData, ENCODE);
         } catch (NoSuchAlgorithmException e) {
             log.warn("解密失败:无此算法", e);
@@ -319,6 +322,21 @@ public class RSASecurityUtils {
     }
 
     public static void main(String[] args) {
+        Map<String, String> key = genKeyPair();
+        String publicKey = key.get(PUBLIC_KEY);
+        String privateKey = key.get(PRIVATE_KEY);
 
+
+        String s = "5465465465465";
+        String encryStr = signByPrivateKey(s, privateKey);
+        System.err.println("签名结果" + encryStr);
+        boolean resut = signVerifyByPublicKey(s, encryStr, publicKey);
+        System.err.println("验签结果" + resut);
+
+        String s1 = encryptByPublicKey(publicKey, s);
+        System.err.println(s1);
+
+        String s2 = decryptByPrivateKey(privateKey, s1);
+        System.err.println(s2);
     }
 }
