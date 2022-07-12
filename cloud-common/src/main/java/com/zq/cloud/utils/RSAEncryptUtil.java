@@ -32,7 +32,8 @@ public class RSAEncryptUtil {
     public static final String SIGN_ALGORITHMS = "SHA256withRSA";
     //签名摘要
     public static final String DIGEST = "SHA-256";
-    //参考https://cloud.tencent.com/developer/article/1199963 具体参考
+    //参考https://cloud.tencent.com/developer/article/1199963
+    //参考https://www.cnblogs.com/meetuj/p/14954533.html
     //注意密钥长度 和加密明文，解密密文的关系
     //密钥大小
     public static final int SIZE = 2048;
