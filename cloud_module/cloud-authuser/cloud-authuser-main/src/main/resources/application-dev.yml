@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://116.62.148.139:3306/cloud_user?useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8&useSSL=false
+      username:
+      password:
+  redis:
+    host: 116.62.148.139
+    port: 6379
+    password:
+    database: 1
+
+zq:
+  rsa:
+    privateKey: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJveHvBCg5VR1jLJrCiJbH34cl/92Qq/BwWF6vonRtYWvflWpHTLTGeaGxeial3BU9aL7s7MLx9Jv5E4zoYP7COKDzHF9xChGhHRfCdOirH5Eqc987HjcrPmY9Vll313uOKZuoLXh72mgd8f4gUYzVi/TmuzzqkNk8PCmQnelvTVAgMBAAECgYAR3kfbsTRWdNhCYD49M2vdkRLDkF1GTxnl9zE11jTXrCnBIL6fqQKsSc1bS0I4V0ZeLRKGYH/ybUjpxAJg+ghO6OMY23WJz4V+3F1kHP/UJxQEfm5yVW6wD70yzy15OhFDmPjjwVh1p/ymvQ660NCrVVKGpajx6zf5YWSjx+jjjQJBAMghIdNEiEpUeAvco0td6oEUeMdGZX+VSOXNVNW67ACrvQ5W9738+tt925dDAz5W4ch7omHK1QSnnM7jmAi9mS8CQQDHYa9c00TNPNj8B/iZ6+WGgLNWg0r2jc28KGxyAL3G+Q3jjnPAOd5YCeJJf+bZFVBbuNtflyVL4c6nLWFTHgk7AkAor/O8jBZZZkrxvm3EiNeAXrUfboR8J9GmRtSUj2gjysao/61mhuRJc5ENc6ZZKjjFFb2xvBcK1zjeJw9l14YpAkACSaypdAMmF7ylp7HCkmJf2Lo2E+uYSKhDsHMOG9QRpGn0Yn4Rhph2iiZ+kWkktInng4eA4UscQ8sLQAoN2hphAkEAih5LsckRXS3HK7hisON2bAzPQE+P7XHGYCsHyaBiXKpQTiMEnyo2AlsvnPVprLmTCJGXft43JeT2pMpQzt2Wbw==
+    publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCb3h7wQoOVUdYyyawoiWx9+HJf/dkKvwcFher6J0bWFr35VqR0y0xnmhsXompdwVPWi+7OzC8fSb+ROM6GD+wjig8xxfcQoRoR0XwnToqx+RKnPfOx43Kz5mPVZZd9d7jimbqC14e9poHfH+IFGM1Yv05rs86pDZPDwpkJ3pb01QIDAQAB

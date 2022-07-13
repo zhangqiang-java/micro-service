@@ -36,7 +36,7 @@ public class RSAEncryptUtil {
     //参考https://www.cnblogs.com/meetuj/p/14954533.html
     //注意密钥长度 和加密明文，解密密文的关系
     //密钥大小
-    public static final int SIZE = 2048;
+    public static final int SIZE = 1024;
     //RSA分段加密明文大小
     private static final int ENCRYPT_BLOCK = SIZE / 8 - 11;
     //RSA分段解密密文大小
@@ -47,7 +47,6 @@ public class RSAEncryptUtil {
     public static final String PUBLIC_KEY = "PublicKey";
 
     public static final String PRIVATE_KEY = "PrivateKey";
-
 
     /**
      * 随机生成密钥对 key 公钥 value 秘钥
@@ -71,6 +70,10 @@ public class RSAEncryptUtil {
             Map<String, String> keyData = new HashMap<>();
             keyData.put(PUBLIC_KEY, publicKeyString);
             keyData.put(PRIVATE_KEY, privateKeyString);
+            System.err.println(publicKeyString);
+
+            System.err.println("111111111111111111111111111111111111");
+            System.err.println(privateKeyString);
             return keyData;
         } catch (Exception e) {
             throw new IllegalArgumentException("秘钥生成失败:" + e.getMessage());
@@ -323,21 +326,9 @@ public class RSAEncryptUtil {
     }
 
     public static void main(String[] args) {
-        Map<String, String> key = genKeyPair();
-        String publicKey = key.get(PUBLIC_KEY);
-        String privateKey = key.get(PRIVATE_KEY);
-
-
-        String s = "5465465465465";
-        String encryStr = signByPrivateKey(s, privateKey);
-        System.err.println("签名结果" + encryStr);
-        boolean resut = signVerifyByPublicKey(s, encryStr, publicKey);
-        System.err.println("验签结果" + resut);
-
-        String s1 = encryptByPublicKey(publicKey, s);
-        System.err.println(s1);
-
-        String s2 = decryptByPrivateKey(privateKey, s1);
-        System.err.println(s2);
+        String encrypt = encryptByPublicKey("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDr/yOzhUblgx+oBkDb6QxspcBdfI0SrQX0xbqVHYr2mZOJZacfsk3d8jiXbXeENs7+PvtRNjpKQ8gjTs53IfAaqbxJMyrp3UhwxWBJxZ6/8GWnmk6nBT8MPHwoOFKnvOyAHbsOD5kqF2VVJzgWOoUwonxaEEErCI9CjCAg7zFTdQIDAQAB", "123456");
+        final String s = decryptByPrivateKey("MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAOv/I7OFRuWDH6gGQNvpDGylwF18jRKtBfTFupUdivaZk4llpx+yTd3yOJdtd4Q2zv4++1E2OkpDyCNOznch8BqpvEkzKundSHDFYEnFnr/wZaeaTqcFPww8fCg4Uqe87IAduw4PmSoXZVUnOBY6hTCifFoQQSsIj0KMICDvMVN1AgMBAAECgYEAqMftqZu9C7JOtqXaRy0SpLWasYG9h0jVhKzRd4oMc7d8i/x2nTWxePWeQbaZjqaAPdefeAKXh7uYbKAVC6DrDVbuPy7B3cGyuv8U/2gvwBZ6WQq4pYSFMQj6Ha64kQSuOEte3WbGO9J+k78RrxDXiK6sT86A9fdkwrOG27ZvGxUCQQD9bv+cjXNnhyJO7deUetFrh83FfgRWvL9Kyep5TMRdD2Vm0VQv843hEYU8W6qhRjj+hCfNWB9PP7UshMijx2iTAkEA7mLv+gDQxfFNDffkO7rckJieqGVXs4CuS1hse9M7PheSs5jIj/d6tJ+1QT4TmGE1wD7K/Zy/UoE6Dr9N2DWA1wJAMI7tAQUFQKfexfrCXJuvtoe9wIJluGzPxjer6nPwB9ikWC/xjoJ/A8nEmo0Bw4bd8r5Flg21agzN3OrQOrlBawJBAJyqDMgiTRIpONibNzVB4r5sbqiAoZhoUyNVI0ZlVaPC3jiFihmDLPMTmo0b/MjB6g9DtSfjIaFZKAyVENWso9UCQQCZDTtnLSm6IQyn0e32P8LmkelP/xNTdWl4L1pMrk5Wxbljw4yJ4NhYPO3a0L/GX9IhHrtCe3ilfoYLnwMBcG3T", encrypt);
+        System.err.println(s);
     }
+
 }
