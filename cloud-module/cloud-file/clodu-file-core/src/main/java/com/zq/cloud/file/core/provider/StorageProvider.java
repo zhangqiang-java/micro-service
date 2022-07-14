@@ -1,6 +1,6 @@
 package com.zq.cloud.file.core.provider;
 
-import com.zq.cloud.file.core.dto.FileMetaData;
+import com.zq.cloud.file.dal.model.FileMetadata;
 
 import java.io.InputStream;
 
@@ -15,5 +15,5 @@ public interface StorageProvider {
      * @param inputStream
      * @param metaData
      */
-    void upload(InputStream inputStream, FileMetaData metaData);
+    void upload(InputStream inputStream, FileMetadata metaData);
 }

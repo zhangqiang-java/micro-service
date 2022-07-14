@@ -16,5 +16,5 @@ public class FileResultVo extends DtoBase {
     @ApiModelProperty(value = "文件名", example = "123.jpg")
     private String fileName;
     @ApiModelProperty(value = "文件预览地址", example = "http://ip:port/view.jpg?authorityId=12345")
-    private String viewUrl;
+    private String previewUrl;
 }

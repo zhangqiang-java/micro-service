@@ -6,4 +6,6 @@ import com.zq.cloud.file.core.dto.FileUploadRequestDto;
 public interface FileService {
 
     FileResultVo upload(FileUploadRequestDto uploadRequestDto);
+
+
 }

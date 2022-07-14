@@ -1,8 +1,11 @@
 package com.zq.cloud.file.dal.model;
 
-import com.zq.cloud.file.dal.enums.FileType;
 import com.zq.cloud.starter.mybatis.model.BaseVersionModel;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Table(name = "file_metadata")
 public class FileMetadata extends BaseVersionModel {
@@ -29,29 +32,13 @@ public class FileMetadata extends BaseVersionModel {
     @Column(name = "file_ext")
     private String fileExt;
 
-    /**
-     * 数据类型DIR:目录;IMAGE:图片;VIDEO:视频;AUDIO:音频;DOC:文档;OTHER:其他
-     */
-    @Column(name = "file_type")
-    private FileType fileType;
 
     /**
-     * 文件相对路径
+     * 文件存储相对路径
      */
     @Column(name = "relative_path")
     private String relativePath;
 
-    /**
-     * 缩略图相对路径
-     */
-    @Column(name = "enlarge_path")
-    private String enlargePath;
-
-    /**
-     * 放大图相对路径
-     */
-    @Column(name = "thumbnail_path")
-    private String thumbnailPath;
 
     /**
      * @return id
@@ -121,23 +108,6 @@ public class FileMetadata extends BaseVersionModel {
         this.fileExt = fileExt;
     }
 
-    /**
-     * 获取数据类型DIR:目录;IMAGE:图片;VIDEO:视频;AUDIO:音频;DOC:文档;OTHER:其他
-     *
-     * @return file_type - 数据类型DIR:目录;IMAGE:图片;VIDEO:视频;AUDIO:音频;DOC:文档;OTHER:其他
-     */
-    public FileType getFileType() {
-        return fileType;
-    }
-
-    /**
-     * 设置数据类型DIR:目录;IMAGE:图片;VIDEO:视频;AUDIO:音频;DOC:文档;OTHER:其他
-     *
-     * @param fileType 数据类型DIR:目录;IMAGE:图片;VIDEO:视频;AUDIO:音频;DOC:文档;OTHER:其他
-     */
-    public void setFileType(FileType fileType) {
-        this.fileType = fileType;
-    }
 
     /**
      * 获取文件相对路径
@@ -157,41 +127,6 @@ public class FileMetadata extends BaseVersionModel {
         this.relativePath = relativePath;
     }
 
-    /**
-     * 获取缩略图相对路径
-     *
-     * @return enlarge_path - 缩略图相对路径
-     */
-    public String getEnlargePath() {
-        return enlargePath;
-    }
-
-    /**
-     * 设置缩略图相对路径
-     *
-     * @param enlargePath 缩略图相对路径
-     */
-    public void setEnlargePath(String enlargePath) {
-        this.enlargePath = enlargePath;
-    }
-
-    /**
-     * 获取放大图相对路径
-     *
-     * @return thumbnail_path - 放大图相对路径
-     */
-    public String getThumbnailPath() {
-        return thumbnailPath;
-    }
-
-    /**
-     * 设置放大图相对路径
-     *
-     * @param thumbnailPath 放大图相对路径
-     */
-    public void setThumbnailPath(String thumbnailPath) {
-        this.thumbnailPath = thumbnailPath;
-    }
 
     @Override
     public String toString() {
@@ -203,10 +138,7 @@ public class FileMetadata extends BaseVersionModel {
         sb.append(", fileName=").append(fileName);
         sb.append(", fileSize=").append(fileSize);
         sb.append(", fileExt=").append(fileExt);
-        sb.append(", fileType=").append(fileType);
         sb.append(", relativePath=").append(relativePath);
-        sb.append(", enlargePath=").append(enlargePath);
-        sb.append(", thumbnailPath=").append(thumbnailPath);
         sb.append("]");
         sb.append(", from super class ");
         sb.append(super.toString());

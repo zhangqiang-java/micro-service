@@ -1,10 +1,11 @@
 package com.zq.cloud.file.dal.model;
 
-import com.zq.cloud.file.dal.enums.StorageSourceType;
-import com.zq.cloud.starter.mybatis.model.BaseModel;
 import com.zq.cloud.starter.mybatis.model.BaseVersionModel;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Table(name = "file")
 public class File extends BaseVersionModel {
@@ -31,12 +32,6 @@ public class File extends BaseVersionModel {
      */
     @Column(name = "metadata_id")
     private Long metadataId;
-
-    /**
-     * 文件上传服务器 OSS,FASTDFS,LOCAL
-     */
-    @Column(name = "storage_source_type")
-    private StorageSourceType storageSourceType;
 
     /**
      * @return id
@@ -107,23 +102,6 @@ public class File extends BaseVersionModel {
         this.metadataId = metadataId;
     }
 
-    /**
-     * 获取文件上传服务器 OSS,FASTDFS,LOCAL
-     *
-     * @return storage_source_type - 文件上传服务器 OSS,FASTDFS,LOCAL
-     */
-    public StorageSourceType getStorageSourceType() {
-        return storageSourceType;
-    }
-
-    /**
-     * 设置文件上传服务器 OSS,FASTDFS,LOCAL
-     *
-     * @param storageSourceType 文件上传服务器 OSS,FASTDFS,LOCAL
-     */
-    public void setStorageSourceType(StorageSourceType storageSourceType) {
-        this.storageSourceType = storageSourceType;
-    }
 
     @Override
     public String toString() {
@@ -135,7 +113,6 @@ public class File extends BaseVersionModel {
         sb.append(", systemCode=").append(systemCode);
         sb.append(", bizCode=").append(bizCode);
         sb.append(", metadataId=").append(metadataId);
-        sb.append(", storageSourceType=").append(storageSourceType);
         sb.append("]");
         sb.append(", from super class ");
         sb.append(super.toString());

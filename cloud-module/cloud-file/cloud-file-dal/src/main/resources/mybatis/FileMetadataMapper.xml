@@ -12,9 +12,6 @@
     <result column="file_name" jdbcType="VARCHAR" property="fileName" />
     <result column="file_size" jdbcType="BIGINT" property="fileSize" />
     <result column="file_ext" jdbcType="VARCHAR" property="fileExt" />
-    <result column="file_type" jdbcType="VARCHAR" property="fileType" />
     <result column="relative_path" jdbcType="VARCHAR" property="relativePath" />
-    <result column="enlarge_path" jdbcType="VARCHAR" property="enlargePath" />
-    <result column="thumbnail_path" jdbcType="VARCHAR" property="thumbnailPath" />
   </resultMap>
 </mapper>

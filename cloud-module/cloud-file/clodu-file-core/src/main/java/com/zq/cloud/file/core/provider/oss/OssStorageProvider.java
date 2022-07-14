@@ -4,9 +4,9 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
 import com.zq.cloud.file.core.config.OssClientBuilderConfiguration;
-import com.zq.cloud.file.core.dto.FileMetaData;
 import com.zq.cloud.file.core.provider.StorageProvider;
 import com.zq.cloud.file.core.provider.oss.listener.OssUploadProgressListener;
+import com.zq.cloud.file.dal.model.FileMetadata;
 import com.zq.cloud.utils.BusinessAssertUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -36,9 +36,10 @@ public class OssStorageProvider implements StorageProvider {
      * @param metaData
      */
     @Override
-    public void upload(InputStream inputStream, FileMetaData metaData) {
-        String storePath = this.createStorePath(metaData);
+    public void upload(InputStream inputStream, FileMetadata metaData) {
+        String storePath = this.createStorePath(metaData.getFileExt());
         this.uploadFile(storePath, inputStream);
+        metaData.setRelativePath(storePath);
     }
 
 
@@ -63,18 +64,18 @@ public class OssStorageProvider implements StorageProvider {
     /**
      * 生成文件存储路径
      *
-     * @param metaData
+     * @param fileExtension
      * @return
      */
-    private String createStorePath(FileMetaData metaData) {
+    private String createStorePath(String fileExtension) {
         String baseFilePath = ossConfiguration.getBaseFilePath();
         if (baseFilePath.endsWith("/")) {
             baseFilePath = baseFilePath.substring(0, baseFilePath.length() - 1);
         }
         SimpleDateFormat sdf = new SimpleDateFormat("/yyyy/MM/dd/");
         String storePath = baseFilePath + sdf.format(new Date()) + UUID.randomUUID().toString().replaceAll("-", "");
-        if (StringUtils.isNotBlank(metaData.getFileType())) {
-            return storePath + "." + metaData.getFileType();
+        if (StringUtils.isNotBlank(fileExtension)) {
+            return storePath + "." + fileExtension;
         }
         return storePath;
     }

@@ -25,17 +25,25 @@ public class FileUploadRequestDto extends DtoBase {
     @ApiModelProperty(value = "自定义文件名")
     private String customFileName;
 
-    /**
-     * 默认压缩
-     */
-    @ApiModelProperty(value = "是否需要压缩")
-    private Boolean compress = Boolean.TRUE;
 
     /**
      * 预览文件url默认有时效性
      */
     @ApiModelProperty(value = "预览文件url时效性")
     private Boolean validityEnable = Boolean.TRUE;
+
+    /**
+     * 系统code
+     */
+    @ApiModelProperty(value = "系统code码")
+    private String systemCode;
+
+
+    /**
+     * 业务code码
+     */
+    @ApiModelProperty(value = "业务code码")
+    private String bizCode;
 
 
 }

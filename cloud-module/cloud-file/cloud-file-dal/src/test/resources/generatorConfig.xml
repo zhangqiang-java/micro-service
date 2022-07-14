@@ -40,7 +40,6 @@
             <property name="rootClass" value="com.zq.cloud.starter.mybatis.model.BaseModel"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
             <columnRenamingRule searchString="is_" replaceString=""/>
-            <columnOverride column="storage_source_type" javaType="com.zq.cloud.file.dal.enums.StorageSourceType"/>
         </table>
 
 
@@ -48,7 +47,6 @@
             <property name="rootClass" value="com.zq.cloud.starter.mybatis.model.BaseVersionModel"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
             <columnRenamingRule searchString="is_" replaceString=""/>
-            <columnOverride column="file_type" javaType="com.zq.cloud.file.dal.enums.FileType"/>
         </table>
 
 
