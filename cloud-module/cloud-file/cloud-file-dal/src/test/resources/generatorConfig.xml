@@ -1,0 +1,59 @@
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <!-- 该插件给实体类添加toString()方法  -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin">
+            <property name="useToStringFromRoot" value="true"/>
+        </plugin>
+
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <property name="caseSensitive" value="true"/>
+            <property name="forceAnnotation" value="true"/>
+        </plugin>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://116.62.148.139:3306/cloud_file?useUnicode=true&amp;characterEncoding=UTF8&amp;serverTimezone=GMT"
+                        userId="root"
+                        password="zq520123">
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="com.zq.cloud.file.dal.model"
+                            targetProject="..\micro-service\cloud-module\cloud-file\cloud-file-dal\src\main\java"/>
+
+        <sqlMapGenerator targetPackage="mybatis"
+                         targetProject="..\micro-service\cloud-module\cloud-file\cloud-file-dal\src\main\resources"/>
+
+        <javaClientGenerator targetPackage="com.zq.cloud.file.dal.mapper"
+                             targetProject="..\micro-service\cloud-module\cloud-file\cloud-file-dal\src\main\java"
+                             type="XMLMAPPER"/>
+
+
+
+        <table tableName="file">
+            <property name="rootClass" value="com.zq.cloud.starter.mybatis.model.BaseModel"/>
+            <generatedKey column="id" sqlStatement="JDBC"/>
+            <columnRenamingRule searchString="is_" replaceString=""/>
+            <columnOverride column="storage_source_type" javaType="com.zq.cloud.file.dal.enums.StorageSourceType"/>
+        </table>
+
+
+        <table tableName="file_metadata">
+            <property name="rootClass" value="com.zq.cloud.starter.mybatis.model.BaseVersionModel"/>
+            <generatedKey column="id" sqlStatement="JDBC"/>
+            <columnRenamingRule searchString="is_" replaceString=""/>
+            <columnOverride column="file_type" javaType="com.zq.cloud.file.dal.enums.FileType"/>
+        </table>
+
+
+
+
+
+    </context>
+</generatorConfiguration>

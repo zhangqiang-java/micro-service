@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zq.cloud.file.dal.mapper.FileMapper">
+  <resultMap id="BaseResultMap" type="com.zq.cloud.file.dal.model.File">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="system_code" jdbcType="VARCHAR" property="systemCode" />
+    <result column="biz_code" jdbcType="VARCHAR" property="bizCode" />
+    <result column="metadata_id" jdbcType="BIGINT" property="metadataId" />
+    <result column="storage_source_type" jdbcType="VARCHAR" property="storageSourceType" />
+  </resultMap>
+</mapper>

@@ -1,0 +1,74 @@
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <!-- 该插件给实体类添加toString()方法  -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin">
+            <property name="useToStringFromRoot" value="true"/>
+        </plugin>
+
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <property name="caseSensitive" value="true"/>
+            <property name="forceAnnotation" value="true"/>
+        </plugin>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://116.62.148.139:3306/cloud_user?useUnicode=true&amp;characterEncoding=UTF8&amp;serverTimezone=GMT"
+                        userId=""
+                        password="">
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="com.zq.cloud.authuser.dal.model"
+                            targetProject="..\micro-service\cloud-authuser\cloud-authuser-dal\src\main\java"/>
+
+        <sqlMapGenerator targetPackage="mybatis"
+                         targetProject="..\micro-service\cloud-authuser\cloud-authuser-dal\src\main\resources"/>
+
+        <javaClientGenerator targetPackage="com.zq.cloud.authuser.dal.mapper"
+                             targetProject="..\micro-service\cloud-authuser\cloud-authuser-dal\src\main\java"
+                             type="XMLMAPPER"/>
+
+
+
+        <table tableName="user">
+            <property name="rootClass" value="com.zq.cloud.starter.mybatis.model.BaseModel"/>
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+
+
+
+<!--        <table tableName="password_account">-->
+<!--            <property name="rootClass" value="com.zq.cloud.starter.mybatis.model.BaseModel"/>-->
+<!--            <generatedKey column="id" sqlStatement="JDBC"/>-->
+<!--        </table>-->
+
+<!--        <table tableName="resource">-->
+<!--            <property name="rootClass" value="com.zq.cloud.starter.mybatis.model.BaseModel"/>-->
+<!--            <generatedKey column="id" sqlStatement="JDBC"/>-->
+<!--        </table>-->
+
+
+<!--        <table tableName="role">-->
+<!--            <property name="rootClass" value="com.zq.cloud.starter.mybatis.model.BaseModel"/>-->
+<!--            <generatedKey column="id" sqlStatement="JDBC"/>-->
+<!--        </table>-->
+
+
+<!--        <table tableName="role_resource">-->
+<!--            <property name="rootClass" value="com.zq.cloud.starter.mybatis.model.BaseModel"/>-->
+<!--            <generatedKey column="id" sqlStatement="JDBC"/>-->
+<!--        </table>-->
+
+<!--        <table tableName="role_user">-->
+<!--            <property name="rootClass" value="com.zq.cloud.starter.mybatis.model.BaseModel"/>-->
+<!--            <generatedKey column="id" sqlStatement="JDBC"/>-->
+<!--        </table>-->
+
+    </context>
+</generatorConfiguration>

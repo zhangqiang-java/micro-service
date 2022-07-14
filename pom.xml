@@ -10,7 +10,7 @@
     <modules>
         <module>cloud-starters</module>
         <module>cloud-common</module>
-        <module>cloud_module</module>
+        <module>cloud-module</module>
     </modules>
 
 
