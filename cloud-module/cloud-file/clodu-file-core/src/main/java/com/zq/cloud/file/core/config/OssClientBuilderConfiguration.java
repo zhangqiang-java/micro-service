@@ -29,6 +29,11 @@ public class OssClientBuilderConfiguration extends ClientBuilderConfiguration {
     private String bucketName;
 
     /**
+     * 签名有效时间 （单位秒）
+     */
+    private Integer expireTime = 30 * 60;
+
+    /**
      * oss存储文件根目录
      */
     private String baseFilePath = "data/common";

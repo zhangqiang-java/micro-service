@@ -1,7 +1,7 @@
 package com.zq.cloud.file.core;
 
-import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.common.auth.DefaultCredentialProvider;
 import com.aliyun.oss.model.CannedAccessControlList;
 import com.aliyun.oss.model.CreateBucketRequest;
 import com.aliyun.oss.model.DataRedundancyType;
@@ -35,11 +35,10 @@ public class FileAutoConfiguration {
 
         @Bean
         @RefreshScope
-        public OSS ossClientBuild(OssClientBuilderConfiguration ossClientConfiguration) {
-            OSS ossClient = new OSSClientBuilder().build("http://" + ossClientConfiguration.getEndpoint(),
-                    ossClientConfiguration.getAccessKeyId(),
-                    ossClientConfiguration.getAccessKeySecret(),
-                    ossClientConfiguration);
+        public OSSClient ossClientBuild(OssClientBuilderConfiguration ossClientConfiguration) {
+            OSSClient ossClient = new OSSClient("http://" + ossClientConfiguration.getEndpoint(),
+                    new DefaultCredentialProvider(ossClientConfiguration.getAccessKeyId(), ossClientConfiguration.getAccessKeySecret())
+                    , ossClientConfiguration);
             if (!ossClient.doesBucketExist(ossClientConfiguration.getBucketName())) {
                 log.info("您的Bucket不存在，创建Bucket： {} ", ossClientConfiguration.getBucketName());
                 CreateBucketRequest createBucketRequest = new CreateBucketRequest(ossClientConfiguration.getBucketName());

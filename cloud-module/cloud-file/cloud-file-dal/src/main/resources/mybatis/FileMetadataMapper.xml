@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zq.cloud.file.dal.mapper.FileMetadataMapper">
-  <resultMap id="BaseResultMap" type="com.zq.cloud.file.dal.model.FileMetadata">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="version" jdbcType="INTEGER" property="version" />
-    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
-    <result column="file_size" jdbcType="BIGINT" property="fileSize" />
-    <result column="file_ext" jdbcType="VARCHAR" property="fileExt" />
-    <result column="relative_path" jdbcType="VARCHAR" property="relativePath" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.zq.cloud.file.dal.model.FileMetadata">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+        <result column="file_name" jdbcType="VARCHAR" property="fileName"/>
+        <result column="file_size" jdbcType="BIGINT" property="fileSize"/>
+        <result column="file_ext" jdbcType="VARCHAR" property="fileExt"/>
+        <result column="relative_path" jdbcType="VARCHAR" property="relativePath"/>
+    </resultMap>
+    <select id="findByFileId" resultType="com.zq.cloud.file.dal.model.FileMetadata">
+        SELECT fm.*
+        FROM file f
+                 INNER JOIN file_metadata fm ON fm.id = f.metadata_id
+        WHERE f.id = #{fileId}
+    </select>
 </mapper>

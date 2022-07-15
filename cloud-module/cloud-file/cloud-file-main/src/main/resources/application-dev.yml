@@ -9,4 +9,16 @@ spring:
     port: 6379
     password:
     database: 2
+zq:
+  file:
+    storage:
+      provider: oss
+      previewDomainName: http://localhost:8252
+    oss:
+      endpoint:
+      accessKeyId:
+      accessKeySecret:
+      bucketName: z
+
+
 

@@ -4,6 +4,7 @@ import com.zq.cloud.file.core.config.FileProperties;
 import com.zq.cloud.file.core.constant.RedisKeyConstant;
 import com.zq.cloud.file.core.dto.FileResultVo;
 import com.zq.cloud.file.core.dto.FileUploadRequestDto;
+import com.zq.cloud.file.core.dto.FileViewDto;
 import com.zq.cloud.file.core.provider.StorageProvider;
 import com.zq.cloud.file.core.service.FileService;
 import com.zq.cloud.file.dal.mapper.FileMapper;
@@ -17,10 +18,12 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.UUID;
@@ -83,6 +86,97 @@ public class FileServiceImpl implements FileService {
         resultVo.setPreviewUrl(previewUrl);
         return resultVo;
     }
+
+    /**
+     * 查看文件
+     *
+     * @param fileId
+     * @param authorityId
+     * @return
+     */
+    @Override
+    public FileViewDto view(Long fileId, String authorityId, HttpServletRequest request) {
+        //有时效性的预览
+        if (StringUtils.isNotBlank(authorityId)) {
+            String fileIdStr = stringRedisTemplate.opsForValue().get(RedisKeyConstant.getPreviewUrlAuthKey(authorityId));
+            BusinessAssertUtils.notBlank(fileIdStr, "预览链接已失效");
+            fileId = Long.parseLong(fileIdStr);
+        }
+
+
+        FileMetadata byFileId = metadataMapper.findByFileId(fileId);
+        BusinessAssertUtils.notNull(byFileId, "文件不存在");
+
+
+        FileViewDto viewDto = new FileViewDto();
+        viewDto.setFileName(byFileId.getFileName());
+        viewDto.setFileSize(byFileId.getFileSize());
+        viewDto.setInputStream(provider.get(byFileId.getRelativePath()));
+
+        //文件类型 图片和pdf的MediaType
+        MediaType mediaType = covertPreviewFileMediaType(byFileId.getFileName());
+        viewDto.setMediaType(mediaType);
+        viewDto.setCanPreview(Boolean.FALSE);
+
+        //图片和非Android微信的PDF支持预览
+        if (Objects.nonNull(mediaType)) {
+            Boolean weChatPdf = isWeChatPdf(byFileId.getFileName(), request);
+            viewDto.setCanPreview(!weChatPdf);
+        }
+        return viewDto;
+    }
+
+    /**
+     * 删除文件
+     *
+     * @param fileId
+     */
+    @Transactional
+    @Override
+    public void delete(Long fileId) {
+        File file = fileMapper.selectByPrimaryKey(fileId);
+        BusinessAssertUtils.notNull(file, "文件已被删除或不存在");
+        FileMetadata fileMetadata = metadataMapper.selectByPrimaryKey(file.getMetadataId());
+        metadataMapper.deleteByPrimaryKey(file.getMetadataId());
+        fileMapper.deleteByPrimaryKey(fileId);
+        provider.delete(fileMetadata.getRelativePath());
+    }
+
+    /**
+     * 是Android微信PDF
+     *
+     * @param fileName
+     * @param request
+     * @return
+     */
+    private Boolean isWeChatPdf(String fileName, HttpServletRequest request) {
+        String userAgent = request.getHeader("user-agent").toLowerCase();
+        return fileName.toLowerCase().endsWith(".pdf") &&
+                userAgent.contains("micromessenger") &&
+                userAgent.contains("android");
+    }
+
+
+    /**
+     * 图片和pdf的MediaType
+     *
+     * @param fileName
+     * @return
+     */
+    private MediaType covertPreviewFileMediaType(String fileName) {
+        if (fileName.toUpperCase().endsWith(".JPG")) {
+            return MediaType.IMAGE_JPEG;
+        } else if (fileName.toUpperCase().endsWith(".PNG")) {
+            return MediaType.IMAGE_PNG;
+        } else if (fileName.toUpperCase().endsWith(".JPEG")) {
+            return MediaType.IMAGE_JPEG;
+        } else if (fileName.toUpperCase().endsWith(".PDF")) {
+            return MediaType.APPLICATION_PDF;
+        } else {
+            return null;
+        }
+    }
+
 
     /**
      * 生成预览url

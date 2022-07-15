@@ -1,5 +1,5 @@
 server:
-  port: 8251
+  port: 8252
 spring:
   application:
     name: cloud-file
