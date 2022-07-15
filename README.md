@@ -3,7 +3,7 @@
 基于springCloudAlibaba的后端通用基础服务，技术栈使用springBoot,nacos,gateway,sentinel,
 seata,openFeign,xxjob,redis,mq,mybaits。该项目主要用于自己学习使用，记录一些工作中有用的轮子。
 
-## 项目情况介绍
+## 项目情况记录
 
 - cloud-common
     - 日常工具类整理，公共信息定义
