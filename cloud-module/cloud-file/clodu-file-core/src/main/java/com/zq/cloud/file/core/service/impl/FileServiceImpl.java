@@ -11,6 +11,9 @@ import com.zq.cloud.file.dal.mapper.FileMapper;
 import com.zq.cloud.file.dal.mapper.FileMetadataMapper;
 import com.zq.cloud.file.dal.model.File;
 import com.zq.cloud.file.dal.model.FileMetadata;
+import com.zq.cloud.file.facade.dto.FileServiceQueryDto;
+import com.zq.cloud.file.facade.dto.FileServiceResult;
+import com.zq.cloud.file.facade.dto.FileServiceUploadRequestDto;
 import com.zq.cloud.utils.BusinessAssertUtils;
 import com.zq.cloud.utils.SnowFlakeUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +27,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -57,9 +63,9 @@ public class FileServiceImpl implements FileService {
     @Override
     public FileResultVo upload(FileUploadRequestDto uploadRequestDto) {
         //1.文件上传
-        FileMetadata fileMetaData = this.createFileMetaData(uploadRequestDto);
         MultipartFile multipartFile = uploadRequestDto.getFile();
         BusinessAssertUtils.isFalse(multipartFile.isEmpty(), "请选择要上传的文件");
+        FileMetadata fileMetaData = this.createFileMetaData(uploadRequestDto);
         try {
             provider.upload(multipartFile.getInputStream(), fileMetaData);
         } catch (IOException e) {
@@ -143,6 +149,52 @@ public class FileServiceImpl implements FileService {
     }
 
     /**
+     * 查看文件信息
+     *
+     * @param queryDto
+     * @return
+     */
+    @Override
+    public FileServiceResult serviceFindFile(FileServiceQueryDto queryDto) {
+        File file = fileMapper.selectByPrimaryKey(queryDto.getId());
+        BusinessAssertUtils.notNull(file, "文件已被删除或不存在");
+        FileMetadata fileMetadata = metadataMapper.selectByPrimaryKey(file.getMetadataId());
+        BusinessAssertUtils.notNull(fileMetadata, "文件已被删除或不存在");
+        return crateFileServiceResult(queryDto, file, fileMetadata);
+    }
+
+
+    /**
+     * 通过bytes 上传文件
+     *
+     * @param uploadRequestDto
+     * @return
+     */
+    @Transactional
+    @Override
+    public void serviceUpload(FileServiceUploadRequestDto uploadRequestDto) {
+        FileMetadata metaData = new FileMetadata();
+        metaData.setId(SnowFlakeUtils.getNextId());
+        metaData.setFileName(uploadRequestDto.getCustomFileName());
+        metaData.setFileSize((long) uploadRequestDto.getContent().length);
+        metaData.setFileExt(FilenameUtils.getExtension(uploadRequestDto.getCustomFileName()));
+        try {
+            provider.upload(new ByteArrayInputStream(uploadRequestDto.getContent()), metaData);
+        } catch (Exception e) {
+            BusinessAssertUtils.fail("上传文件异常");
+        }
+
+        metadataMapper.insert(metaData);
+        File file = new File();
+        file.setId(SnowFlakeUtils.getNextId());
+        file.setSystemCode(uploadRequestDto.getSystemCode());
+        file.setBizCode(uploadRequestDto.getBizCode());
+        file.setMetadataId(metaData.getId());
+        fileMapper.insert(file);
+    }
+
+
+    /**
      * 是Android微信PDF
      *
      * @param fileName
@@ -224,5 +276,52 @@ public class FileServiceImpl implements FileService {
         metaData.setFileSize(file.getSize());
         metaData.setFileExt(FilenameUtils.getExtension(originalFilename));
         return metaData;
+    }
+
+
+    /**
+     * 流转换
+     *
+     * @param input
+     * @return
+     */
+    private byte[] toByteArray(InputStream input) {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        try {
+            byte[] buffer = new byte[4096];
+            int n = 0;
+            while (-1 != (n = input.read(buffer))) {
+                output.write(buffer, 0, n);
+            }
+
+        } catch (Exception e) {
+            log.error("流转换失败：", e);
+            BusinessAssertUtils.fail("文件转换异常", e);
+        }
+        return output.toByteArray();
+    }
+
+    /**
+     * 组装微服务调用返回
+     *
+     * @param queryDto
+     * @param file
+     * @param fileMetadata
+     * @return
+     */
+    private FileServiceResult crateFileServiceResult(FileServiceQueryDto queryDto, File file, FileMetadata fileMetadata) {
+        FileServiceResult result = new FileServiceResult();
+        result.setId(file.getId());
+        result.setFileName(fileMetadata.getFileName());
+        result.setBizCode(file.getBizCode());
+        result.setSystemCode(file.getSystemCode());
+        if (queryDto.getNeedBytes()) {
+            InputStream inputStream = provider.get(fileMetadata.getRelativePath());
+            byte[] bytes = this.toByteArray(inputStream);
+            result.setContent(bytes);
+        }
+        String previewUrl = this.cratePreviewUrl(file.getId(), fileMetadata.getFileExt(), queryDto.getValidityEnable());
+        result.setPreviewUrl(previewUrl);
+        return result;
     }
 }

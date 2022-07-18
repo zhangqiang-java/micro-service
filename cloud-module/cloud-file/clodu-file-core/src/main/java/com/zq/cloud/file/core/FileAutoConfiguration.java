@@ -9,6 +9,7 @@ import com.aliyun.oss.model.StorageClass;
 import com.zq.cloud.file.core.config.FileProperties;
 import com.zq.cloud.file.core.config.OssClientBuilderConfiguration;
 import com.zq.cloud.file.core.provider.StorageProvider;
+import com.zq.cloud.file.core.provider.fastdfs.FastDfsStorageProvider;
 import com.zq.cloud.file.core.provider.oss.OssStorageProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -21,6 +22,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties({FileProperties.class, OssClientBuilderConfiguration.class})
 @Slf4j
 public class FileAutoConfiguration {
+
 
     /**
      * oss 存储服务
@@ -54,4 +56,15 @@ public class FileAutoConfiguration {
             return ossClient;
         }
     }
+
+
+    @Configuration
+    @ConditionalOnProperty(value = "zq.file.storage.provider", havingValue = "fastDfs")
+    static public class FastDfsStorageAutoConfiguration {
+        @Bean
+        public StorageProvider fastDfsStorageProvider() {
+            return new FastDfsStorageProvider();
+        }
+    }
+
 }
