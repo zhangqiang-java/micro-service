@@ -1,5 +1,5 @@
 server:
-  port: 8250
+  port: 8253
 spring:
   application:
     name: cloud-sms

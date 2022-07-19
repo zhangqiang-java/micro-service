@@ -18,7 +18,6 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/service/authuser/auth")
-
 public class AuthServiceController implements AuthClient {
 
     @Autowired

@@ -36,6 +36,12 @@
             <groupId>com.zq.cloud</groupId>
             <artifactId>cloud-logging-starter</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.zq.cloud</groupId>
+            <artifactId>cloud-sms-web</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

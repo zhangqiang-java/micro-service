@@ -1,7 +1,7 @@
 spring:
   datasource:
     druid:
-      url: jdbc:mysql://116.62.148.139:3306/cloud_user?useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8&useSSL=false
+      url: jdbc:mysql://116.62.148.139:3306/cloud_sms?useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8&useSSL=false
       username:
       password:
   redis:
@@ -9,4 +9,19 @@ spring:
     port: 6379
     password:
     database: 2
+
+zq:
+  sms:
+    provider:
+      aliYun:
+        enabled: true
+        accessKeyId:
+        accessKeySecret:
+    # 路由策略 0 随机 ，1 轮询 ，2 指定服务
+    routeStrategy: 2
+    # 路由策略为指定服务时 需要填写 目前支持aliYun，tencent
+    designated: aliYun
+    whiteList: 15211111111,15500000000
+
+
 

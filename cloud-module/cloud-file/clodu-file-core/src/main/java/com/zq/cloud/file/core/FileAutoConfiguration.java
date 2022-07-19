@@ -6,6 +6,7 @@ import com.aliyun.oss.model.CannedAccessControlList;
 import com.aliyun.oss.model.CreateBucketRequest;
 import com.aliyun.oss.model.DataRedundancyType;
 import com.aliyun.oss.model.StorageClass;
+import com.zq.cloud.file.core.config.FastDfsStorageProperties;
 import com.zq.cloud.file.core.config.FileProperties;
 import com.zq.cloud.file.core.config.OssClientBuilderConfiguration;
 import com.zq.cloud.file.core.provider.StorageProvider;
@@ -19,7 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@EnableConfigurationProperties({FileProperties.class, OssClientBuilderConfiguration.class})
+@EnableConfigurationProperties({FileProperties.class, OssClientBuilderConfiguration.class, FastDfsStorageProperties.class})
 @Slf4j
 public class FileAutoConfiguration {
 
