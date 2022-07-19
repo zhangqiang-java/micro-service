@@ -6,7 +6,6 @@ import com.zq.cloud.sms.core.service.SmsService;
 import com.zq.cloud.sms.facade.SmsClient;
 import com.zq.cloud.sms.facade.dto.SendByTemplateDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +21,7 @@ public class SmsServiceController implements SmsClient {
     @Autowired
     private SmsService service;
 
-    @PostMapping("/sendByTemplate")
+
     public ResultBase<Void> sendByTemplate(@RequestBody @Valid SendByTemplateDto sendByTemplateDto) {
         service.sendByTemplate(sendByTemplateDto.getMobileNo(),
                 sendByTemplateDto.getTemplateCode(),
